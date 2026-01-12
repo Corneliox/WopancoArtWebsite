@@ -67,5 +67,16 @@
     // Remove the bottom nav on login pages to reduce clutter
     const bottomNav = document.getElementById('wopanco-bottom-nav');
     if(bottomNav) bottomNav.remove();
+
+    const nav = document.querySelector('.navbar');
+    if(nav) {
+        nav.classList.add('mobile-menu-open');
+        nav.classList.add('is-sticky');
+    }
+
+    // Disable Body Scroll on Desktop (Cleaner look)
+    if (window.innerWidth >= 992) {
+        document.body.style.overflow = 'hidden';
+    }
 </script>
 @endpush
