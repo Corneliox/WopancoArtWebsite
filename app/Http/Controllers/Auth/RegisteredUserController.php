@@ -48,9 +48,13 @@ class RegisteredUserController extends Controller
         // 2. REMOVED: Do not create ArtistProfile here.
         // ArtistProfile::create(['user_id' => $user->id]); 
 
-        // 3. Fire the Event (Sends the email)
-        event(new Registered($user));
-
+        // 3. FIX: Manually force the email to send immediately
+        // (Bypasses the Event Listener which might be failing)
+        $user->sendEmailVerificationNotification(); 
+        
+        // Optional: You can still fire the event for other listeners (like logs)
+        // event(new Registered($user));
+        
         // 4. Log them in
         Auth::login($user);
 
