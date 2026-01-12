@@ -62,7 +62,7 @@
 
 @section('content')
     {{-- 2. CENTERED WRAPPER --}}
-    <div class="d-flex align-items-center justify-content-center" style="min-height: 80vh; padding: 20px;">
+    <div class="d-flex align-items-center justify-content-center" style="padding-top: 100px;">
         
         {{-- 3. THE FORM SLOT --}}
         <div class="auth-card">
