@@ -1,64 +1,69 @@
 @extends('layouts.main')
 
-{{-- 1. INJECT TAILWIND & CUSTOM STYLES --}}
 @push('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
     <style>
-        /* --- NAVBAR FIX --- */
-        /* Forces the navbar to be Teal immediately so links are visible */
+        /* 1. PAGE BACKGROUND & CENTERING */
+        body {
+            background-color: #f8f9fa !important; 
+        }
+        
+        #auth-wrapper {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 80px; 
+            padding-bottom: 40px;
+        }
+
+        /* 2. NAVBAR OVERRIDES */
         .navbar {
             background-color: var(--secondary-color) !important;
             position: fixed !important;
-            top: 0; 
+            top: 0;
             width: 100%;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        /* Reset Body Padding for the Fixed Navbar */
-        body { 
-            padding-top: 80px !important; 
-            background-color: #f3f4f6; /* Light Gray Background for the whole page */
+        /* Force Text Colors for Visibility */
+        .navbar .nav-link, .navbar .navbar-brand span, 
+        .navbar .bi-cart3, .navbar .user-name-text, .navbar .bi-person {
+            color: #ffffff !important;
         }
+        .navbar-toggler { border-color: rgba(255,255,255,0.5) !important; }
+        .navbar-toggler-icon { filter: brightness(0) invert(1) !important; }
 
-        /* --- FORM CONTAINER STYLE --- */
-        /* This ensures the white box looks like a card even if Tailwind fails */
+        /* 3. CONTENT CARD STYLING (To be used in the views) */
         .auth-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background-color: #ffffff;
+            border-radius: 20px;       /* 20px Radius */
+            border: 1px solid #e5e7eb; /* 1px Outline */
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* Soft Shadow */
+            padding: 2.5rem;
             width: 100%;
             max-width: 450px;
-            margin: 0 auto;
         }
 
-        /* Fix Bootstrap overriding Tailwind inputs */
-        .auth-card input {
-            display: block;
-            width: 100%;
-            padding: 0.5rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #374151;
-            background-color: #fff;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            margin-bottom: 1rem;
+        /* Form Inputs override */
+        .auth-card input.form-control {
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+        }
+        .auth-card input.form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(75, 114, 109, 0.25);
         }
     </style>
 @endpush
 
 @section('content')
-    {{-- 2. CENTERED WRAPPER --}}
-    <div class="d-flex align-items-center justify-content-center" style="min-height: 80vh; padding: 20px;">
-        
-        {{-- 3. THE FORM SLOT --}}
-        <div class="auth-card">
-            {{ $slot }}
-        </div>
-
+    <div id="auth-wrapper">
+        {{-- The Slot contains the Card + Form --}}
+        {{ $slot }}
     </div>
 @endsection
 
