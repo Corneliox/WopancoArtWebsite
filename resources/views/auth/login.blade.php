@@ -60,6 +60,20 @@
     </form>
 
     <script>
+        const nav = document.querySelector('.navbar');
+        if(nav) {
+            nav.classList.add('mobile-menu-open');
+            nav.classList.add('is-sticky');
+        }
+
+        const bottomNav = document.getElementById('wopanco-bottom-nav');
+        if(bottomNav) bottomNav.remove();
+
+        // Disable Body Scroll on Desktop (Cleaner look)
+        if (window.innerWidth >= 992) {
+            document.body.style.overflow = 'hidden';
+        }
+
         function togglePassword(inputId, iconId) {
             const input = document.getElementById(inputId);
             const icon = document.getElementById(iconId);
