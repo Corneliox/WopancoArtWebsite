@@ -290,4 +290,13 @@ Route::get('/debug-email', function () {
     }
 });
 
+// --- TEMPORARY: MARK ALL EXISTING USERS AS VERIFIED ---
+Route::get('/verify-all-existing', function () {
+    // Update all users who currently have NO verification date
+    $count = \App\Models\User::whereNull('email_verified_at')
+                ->update(['email_verified_at' => now()]);
+
+    return "<h1>Success!</h1><p>Marked $count existing users as Verified.</p> <a href='/'>Go Home</a>";
+});
+
 require __DIR__.'/auth.php';
