@@ -1,29 +1,38 @@
 <x-auth-layout>
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+{{-- HEADER --}}
+    <div class="text-center mb-4">
+        <h2 class="fw-bold fs-2" style="color: var(--primary-color);">Forgot Password?</h2>
+        <p class="text-muted small">
+            {{ __('No problem. Just let us know your email address and we will email you a password reset link.') }}
+        </p>
+    </div>
+
+    {{-- SESSION STATUS (Success Message) --}}
+    <x-auth-session-status class="mb-3 text-success small text-center fw-bold" :status="session('status')" />
+
+    <form method="POST" action="{{ route('password.email') }}">
+        @csrf
+
+        {{-- EMAIL ADDRESS --}}
+        <div class="mb-4">
+            <label for="email" class="form-label small fw-bold text-secondary">Email Address</label>
+            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="form-control">
+            <x-input-error :messages="$errors->get('email')" class="mt-1 text-danger small" />
         </div>
 
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+        {{-- ACTIONS --}}
+        <div class="d-flex flex-column gap-3">
+            {{-- Submit Button --}}
+            <button type="submit" class="btn text-white fw-bold py-2" style="background-color: var(--custom-btn-bg-color); border-radius: 10px;">
+                {{ __('Email Password Reset Link') }}
+            </button>
 
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
-
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
-
-            <div class="flex items-center justify-between mt-4">
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                        {{ __('Back to Login') }}
+            {{-- Back Link --}}
+            <div class="text-center">
+                <a href="{{ route('login') }}" class="small text-decoration-none fw-bold" style="color: var(--secondary-color);">
+                    <i class="bi bi-arrow-left me-1"></i> {{ __('Back to Login') }}
                 </a>
-
-                <x-primary-button>
-                    {{ __('Email Reset Link') }}
-                </x-primary-button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </x-auth-layout>
