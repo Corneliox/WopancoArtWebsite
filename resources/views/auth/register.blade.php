@@ -1,89 +1,74 @@
 <x-auth-layout>
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-        
-        {{-- FIX 2: ADDED TITLE --}}
-        <div class="mb-5 text-center">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">{{ __('Register') }}</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('Create a new account.') }}</p>
+    {{-- HEADER --}}
+    <div class="text-center mb-4">
+        <h2 class="fw-bold fs-2" style="color: var(--primary-color);">Register</h2>
+        <p class="text-muted small">Create a new account.</p>
+    </div>
+
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
+
+        {{-- NAME --}}
+        <div class="mb-3">
+            <label for="name" class="form-label small fw-bold text-secondary">Name</label>
+            <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" class="form-control">
+            <x-input-error :messages="$errors->get('name')" class="mt-1 text-danger small" />
         </div>
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+        {{-- EMAIL --}}
+        <div class="mb-3">
+            <label for="email" class="form-label small fw-bold text-secondary">Email</label>
+            <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" class="form-control">
+            <x-input-error :messages="$errors->get('email')" class="mt-1 text-danger small" />
+        </div>
 
-            <div>
-                <x-input-label for="name" :value="__('Name')" />
-                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        {{-- PASSWORD --}}
+        <div class="mb-3">
+            <label for="password" class="form-label small fw-bold text-secondary">Password</label>
+            <div class="position-relative">
+                <input id="password" type="password" name="password" required autocomplete="new-password" class="form-control pe-5">
+                
+                {{-- Eye Icon --}}
+                <i id="reg-eye-1" class="bi bi-eye-slash toggle-password" onclick="togglePassword('password', 'reg-eye-1')"></i>
             </div>
+            <x-input-error :messages="$errors->get('password')" class="mt-1 text-danger small" />
+        </div>
 
-            <div class="mt-4">
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        {{-- CONFIRM PASSWORD --}}
+        <div class="mb-3">
+            <label for="password_confirmation" class="form-label small fw-bold text-secondary">Confirm Password</label>
+            <div class="position-relative">
+                <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" class="form-control pe-5">
+                
+                {{-- Eye Icon --}}
+                <i id="reg-eye-2" class="bi bi-eye-slash toggle-password" onclick="togglePassword('password_confirmation', 'reg-eye-2')"></i>
             </div>
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1 text-danger small" />
+        </div>
 
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
+        {{-- LINKS & BUTTON --}}
+        <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between mt-4 gap-3">
+            <a href="{{ route('login') }}" class="small text-decoration-none order-2 order-sm-1" style="color: var(--secondary-color);">
+                Already registered?
+            </a>
 
-                <div class="relative">
-                    <x-text-input id="password" class="block mt-1 w-full pr-14"
-                                    type="password"
-                                    name="password"
-                                    required autocomplete="new-password" />
-                    
-                    <span class="absolute-icon" onclick="togglePassword('password', 'login-eye')">
-                        <i id="login-eye" class="bi bi-eye-slash text-xl"></i>
-                    </span>
-                </div>
+            <button type="submit" class="btn text-white fw-bold py-2 px-4 w-100 w-sm-auto order-1 order-sm-2" style="background-color: var(--custom-btn-bg-color); border-radius: 10px;">
+                Register
+            </button>
+        </div>
+    </form>
 
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <div class="mt-4">
-                <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <div class="relative">
-                    <x-text-input id="password_confirmation" class="block mt-1 w-full pr-14"
-                                    type="password"
-                                    name="password_confirmation" required autocomplete="new-password" />
-
-                    <span class="absolute inset-y-0 right-0 flex items-center justify-center cursor-pointer text-gray-400 hover:text-gray-600"
-                          style="width: 50px;"
-                          onclick="togglePassword('password_confirmation', 'reg-eye-2')">
-                        <i id="reg-eye-2" class="bi bi-eye-slash text-xl"></i>
-                    </span>
-                </div>
-
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div>
-
-            {{-- FIX 3: IMPROVED BOTTOM LAYOUT (Flex Wrap for Mobile) --}}
-            <div class="flex flex-col sm:flex-row items-center justify-end mt-6 gap-4">
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-primary-button class="w-full sm:w-auto justify-center">
-                    {{ __('Register') }}
-                </x-primary-button>
-            </div>
-        </form>
-
-        <script>
-            function togglePassword(inputId, iconId) {
-                const input = document.getElementById(inputId);
-                const icon = document.getElementById(iconId);
-
-                if (input.type === "password") {
-                    input.type = "text";
-                    icon.classList.remove('bi-eye-slash');
-                    icon.classList.add('bi-eye');
-                } else {
-                    input.type = "password";
-                    icon.classList.remove('bi-eye');
-                    icon.classList.add('bi-eye-slash');
-                }
+    <script>
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            } else {
+                input.type = "password";
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
             }
-        </script>
-    </div>
+        }
+    </script>
 </x-auth-layout>
