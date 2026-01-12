@@ -299,4 +299,9 @@ Route::get('/debug-email', function () {
 //     return "<h1>Success!</h1><p>Marked $count existing users as Verified.</p> <a href='/'>Go Home</a>";
 // });
 
+// Utility route for the Verify Email page to poll status
+Route::get('/check-verification-status', function (Illuminate\Http\Request $request) {
+    return response()->json(['verified' => $request->user()->hasVerifiedEmail()]);
+})->middleware('auth')->name('verification.check');
+
 require __DIR__.'/auth.php';
