@@ -276,7 +276,7 @@ use Illuminate\Support\Facades\Mail;
 Route::get('/debug-email', function () {
     try {
         // Replace this with your PERSONAL email (gmail/yahoo) to test reception
-        $targetEmail = 'corneliox@gmail.com'; // OR YOUR EMAIL
+        $targetEmail = 'cornelioabdimash@gmail.com'; // OR YOUR EMAIL
 
         Mail::raw('Test email content. If you see this, SMTP is working!', function ($msg) use ($targetEmail) {
             $msg->to($targetEmail)
