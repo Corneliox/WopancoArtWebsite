@@ -1,4 +1,4 @@
-<x-layouts.auth-layout>
+<x-auth-layout>
     <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
         
         {{-- FIX 2: ADDED TITLE --}}
@@ -88,4 +88,4 @@
             }
         </script>
     </div>
-</x-layouts.auth-layout>
+</x-auth-layout>
