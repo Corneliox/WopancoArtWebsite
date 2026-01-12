@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\ArtistProfile;
+// use App\Models\ArtistProfile; // <-- Remove or comment this out
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -42,19 +42,19 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'slug' => $slug,
-            'is_artist' => true,
+            'is_artist' => false, // <--- 1. Set to FALSE (Regular User)
         ]);
 
-        ArtistProfile::create(['user_id' => $user->id]);
+        // 2. REMOVED: Do not create ArtistProfile here.
+        // ArtistProfile::create(['user_id' => $user->id]); 
 
-        // 1. Fire the Event (Sends the email)
+        // 3. Fire the Event (Sends the email)
         event(new Registered($user));
 
-        // 2. Log them in
+        // 4. Log them in
         Auth::login($user);
 
-        // 3. FORCE REDIRECT TO VERIFY PAGE
-        // Use 'verification.notice' which is the standard name for verify-email.blade.php
+        // 5. Force Redirect to Verify Page
         return redirect(route('verification.notice')); 
     }
 }
