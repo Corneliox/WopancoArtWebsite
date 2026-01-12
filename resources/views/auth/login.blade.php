@@ -1,86 +1,75 @@
 <x-auth-layout>
-    {{-- Container for the Form --}}
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-        
-        {{-- FIX 1: Load Icons (already in layout, but kept for safety if standalone) --}}
-        {{-- <link href="{{ asset('css/bootstrap-icons.css') }}" rel="stylesheet"> --}}
+    {{-- HEADER --}}
+    <div class="text-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">Login</h2>
+        <p class="text-muted small">Welcome back! Please login to continue.</p>
+    </div>
 
-        {{-- FIX 2: ADDED TITLE --}}
-        <div class="mb-5 text-center">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">{{ __('Login') }}</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('Welcome back! Please login to continue.') }}</p>
+    <x-auth-session-status class="mb-3" :status="session('status')" />
+
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
+
+        {{-- EMAIL --}}
+        <div class="mb-3">
+            <label for="email" class="form-label small fw-bold">Email</label>
+            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" class="form-control">
+            <x-input-error :messages="$errors->get('email')" class="mt-1 text-danger small" />
         </div>
 
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        {{-- PASSWORD --}}
+        <div class="mb-3">
+            <label for="password" class="form-label small fw-bold">Password</label>
+            <div class="position-relative">
+                <input id="password" type="password" name="password" required autocomplete="current-password" class="form-control pe-5">
+                
+                {{-- Eye Icon --}}
+                <span class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer" 
+                      style="cursor: pointer;"
+                      onclick="togglePassword('password', 'login-eye')">
+                    <i id="login-eye" class="bi bi-eye-slash"></i>
+                </span>
             </div>
+            <x-input-error :messages="$errors->get('password')" class="mt-1 text-danger small" />
+        </div>
 
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
+        {{-- REMEMBER ME --}}
+        <div class="mb-3 form-check">
+            <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
+            <label for="remember_me" class="form-check-label small text-muted">Remember me</label>
+        </div>
 
-                <div class="relative">
-                    <x-text-input id="password" class="block mt-1 w-full pr-14"
-                                    type="password"
-                                    name="password"
-                                    required autocomplete="current-password" />
-
-                    <span class="absolute-icon" onclick="togglePassword('password', 'login-eye')">
-                        <i id="login-eye" class="bi bi-eye-slash text-xl"></i>
-                    </span>
-                </div>
-
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex mt-6 text-center justify-end">
-                <a href="{{ route('register') }}" 
-                class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                    {{ __("Don't have an account? Register") }}
+        {{-- LINKS --}}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="{{ route('register') }}" class="small text-decoration-none" style="color: var(--secondary-color);">
+                Register Account
+            </a>
+            @if (Route::has('password.request'))
+                <a href="{{ route('password.request') }}" class="small text-decoration-none text-muted">
+                    Forgot Password?
                 </a>
-            </div>
-            
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
+            @endif
+        </div>
 
-                <x-primary-button class="ms-3">
-                    {{ __('Log in') }}
-                </x-primary-button>
-            </div>
-        </form>
+        {{-- BUTTON --}}
+        <div class="d-grid">
+            <button type="submit" class="btn text-white fw-bold py-2" style="background-color: var(--custom-btn-bg-color);">
+                Log In
+            </button>
+        </div>
+    </form>
 
-        <script>
-            function togglePassword(inputId, iconId) {
-                const input = document.getElementById(inputId);
-                const icon = document.getElementById(iconId);
-
-                if (input.type === "password") {
-                    input.type = "text";
-                    icon.classList.remove('bi-eye-slash');
-                    icon.classList.add('bi-eye');
-                } else {
-                    input.type = "password";
-                    icon.classList.remove('bi-eye');
-                    icon.classList.add('bi-eye-slash');
-                }
+    <script>
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            } else {
+                input.type = "password";
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
             }
-        </script>
-    </div>
+        }
+    </script>
 </x-auth-layout>
