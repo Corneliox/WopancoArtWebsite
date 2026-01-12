@@ -22,31 +22,69 @@
             background-color: #f3f4f6; /* Light Gray Background for the whole page */
         }
 
-        /* --- FORM CONTAINER STYLE --- */
-        /* This ensures the white box looks like a card even if Tailwind fails */
+        /* ============================= */
+        /* GOD-TIER AUTH CARD CONTAINER  */
+        /* ============================= */
         .auth-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background: #ffffff;
+
+            /* God-tier rounded corners */
+            border-radius: 20px;
+
+            /* Elegant outline */
+            border: 1px solid rgba(0, 0, 0, 0.06);
+
+            /* Soft premium shadow (layered) */
+            box-shadow:
+                0 10px 25px -5px rgba(0, 0, 0, 0.08),
+                0 4px 10px -4px rgba(0, 0, 0, 0.06);
+
+            padding: 2.25rem;
             width: 100%;
             max-width: 450px;
             margin: 0 auto;
+
+            /* Smooth visual polish */
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
         }
 
-        /* Fix Bootstrap overriding Tailwind inputs */
+        /* Subtle hover lift (desktop only) */
+        @media (hover: hover) {
+            .auth-card:hover {
+                transform: translateY(-2px);
+                box-shadow:
+                    0 16px 35px -8px rgba(0, 0, 0, 0.12),
+                    0 6px 15px -6px rgba(0, 0, 0, 0.08);
+            }
+        }
+
+        /* ============================= */
+        /* INPUT FIX (BOOTSTRAP SAFE)    */
+        /* ============================= */
         .auth-card input {
             display: block;
             width: 100%;
-            padding: 0.5rem 0.75rem;
-            font-size: 1rem;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.95rem;
             line-height: 1.5;
             color: #374151;
-            background-color: #fff;
+
+            background-color: #ffffff;
             border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
+            border-radius: 0.5rem;
+
             margin-bottom: 1rem;
+
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
+
+        /* Focus state = premium */
+        .auth-card input:focus {
+            outline: none;
+            border-color: #6366f1; /* Indigo */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
     </style>
 @endpush
 
