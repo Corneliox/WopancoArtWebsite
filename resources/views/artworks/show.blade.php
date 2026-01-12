@@ -2,18 +2,17 @@
 
 @use('Illuminate\Support\Str')
 
-{{-- Push styles to the scripts stack or putting them inline ensures they load --}}
 @push('scripts')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
     .swiper-button-next, .swiper-button-prev {
         color: #fff; 
-        background: rgba(0,0,0,0.5); /* Darker background for visibility */
-        width: 40px; height: 40px; border-radius: 50%;
+        background: rgba(0,0,0,0.5); 
+        width: 30px; height: 30px; border-radius: 50%;
         backdrop-filter: blur(2px);
     }
     .swiper-button-next:after, .swiper-button-prev:after {
-        font-size: 18px; font-weight: bold;
+        font-size: 14px; font-weight: bold;
     }
     .swiper-pagination-bullet-active {
         background: var(--primary-color, #000);
@@ -23,7 +22,7 @@
 
 @section('content')
 
-    {{-- 1. HERO SECTION (Use High-Res Main Image) --}}
+    {{-- 1. HERO BACKGROUND (Blurred High-Res) --}}
     <section class="hero-section" style="background-image: url('{{ $artwork->high_res_url }}'); background-size: cover; background-position: center; min-height: 450px;">
         <div class="row mt-3 ms-3 mb-4">
             <div class="col-12">
@@ -32,83 +31,37 @@
                 </a>
             </div>
         </div>
-
-        <div class="container">
-            <div class="row align-items-center" style="min-height: 450px;">
-                <div class="col-12">
-                    {{-- Spacer --}}
-                </div>
-            </div>
-        </div>
+        <div class="container"><div class="row align-items-center" style="min-height: 450px;"><div class="col-12"></div></div></div>
     </section>
 
-    {{-- 2. ARTWORK DETAILS --}}
+    {{-- 2. CONTENT SECTION --}}
     <section class="section-padding">
         <div class="container">
             <div class="row">
 
-                {{-- LEFT: Main Content --}}
-                <div class="col-lg-8 col-12">
+                {{-- === LEFT COLUMN: TITLE & DESCRIPTION === --}}
+                <div class="col-lg-8 col-12 order-2 order-lg-1">
                     
-                    {{-- === IMAGE DISPLAY LOGIC === --}}
-                    
-                    {{-- CASE A: CRAFT WITH EXTRA IMAGES -> CAROUSEL --}}
-                    @if($artwork->category == 'Craft' && !empty($artwork->additional_images))
-                        
-                        {{-- FIX: Removed 'float-md-end' and added 'mx-auto' to center it properly --}}
-                        <div class="swiper artworkDetailSwiper mb-5 rounded shadow-lg mx-auto" style="max-width: 100%; width: 500px; height: 400px;">
-                            <div class="swiper-wrapper">
-                                {{-- 1. Main Image --}}
-                                <div class="swiper-slide bg-light d-flex align-items-center justify-content-center">
-                                    <img src="{{ $artwork->high_res_url }}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-                                </div>
-                                {{-- 2. Extra Images --}}
-                                @foreach($artwork->additional_images as $path)
-                                    <div class="swiper-slide bg-light d-flex align-items-center justify-content-center">
-                                        <img src="{{ Storage::url($path) }}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-                                    </div>
-                                @endforeach
-                            </div>
-                            
-                            {{-- Controls --}}
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-
-                    {{-- CASE B: SINGLE IMAGE (LUKISAN OR SIMPLE CRAFT) --}}
-                    @else
-                        <img src="{{ $artwork->high_res_url }}" 
-                             class="img-fluid shadow-lg float-md-end ms-md-4 mb-3" 
-                             alt="{{ $artwork->title }}" 
-                             style="border-radius: 20px; max-width: 300px; width: 40%;">
-                    @endif
-                    {{-- === END IMAGE LOGIC === --}}
-
                     <h1 class="mb-3">{{ $artwork->title }}</h1>
                     <p class="text-muted fs-5">Category: {{ $artwork->category }}</p>
 
                     <h3 class="mt-5">About this work</h3>
                     <hr class="my-4">
                     
-                    {{-- Description --}}
                     <p style="line-height: 1.8; white-space: pre-line;">
                         {{ strip_tags($artwork->description) ?? 'No description provided.' }}
                     </p>
-
                 </div>
 
-                {{-- RIGHT: Sidebar --}}
-                <div class="col-lg-4 col-12 mt-5 mt-lg-0">
+                {{-- === RIGHT COLUMN: MARKETPLACE, PROFILE, & IMAGE === --}}
+                <div class="col-lg-4 col-12 mt-4 mt-lg-0 order-1 order-lg-2">
                     
-                    <div class="custom-block bg-white shadow-lg p-4" style="height: fit-content;">
+                    <div class="custom-block bg-white shadow-lg p-4 h-100">
                         
-                        {{-- MARKETPLACE INFO --}}
+                        {{-- 1. MARKETPLACE INFO --}}
                         @if($artwork->price && $artwork->price > 0)
                             <div class="mb-4 pb-4 border-bottom">
                                 <h4 class="mb-3">Marketplace Info</h4>
-
-                                {{-- Price --}}
                                 <div class="mb-3">
                                     @if($artwork->is_promo && $artwork->promo_price > 0)
                                         <small class="text-decoration-line-through text-muted">Rp {{ number_format($artwork->price, 0, ',', '.') }}</small>
@@ -119,7 +72,6 @@
                                     @endif
                                 </div>
 
-                                {{-- Stock --}}
                                 <div class="mb-4">
                                     @if($artwork->stock > 0)
                                         <div class="d-flex align-items-center text-success">
@@ -134,7 +86,6 @@
                                     @endif
                                 </div>
 
-                                {{-- Action Button --}}
                                 <div class="d-grid gap-2">
                                     @auth
                                         @if(auth()->id() === $artwork->user_id)
@@ -157,9 +108,9 @@
                             </div>
                         @endif
 
-                        {{-- ARTIST PROFILE --}}
+                        {{-- 2. ARTIST PROFILE --}}
                         <h5 class="mb-3 text-muted">Created by</h5>
-                        <a href="{{ route('pelukis.show', $artwork->user) }}" class="d-flex align-items-center text-decoration-none text-dark p-3 rounded" style="background-color: #f8f9fa;">
+                        <a href="{{ route('pelukis.show', $artwork->user) }}" class="d-flex align-items-center text-decoration-none text-dark p-3 rounded mb-4" style="background-color: #f8f9fa;">
                             @if($artwork->user->artistProfile && $artwork->user->artistProfile->profile_picture)
                                 <img src="{{ Storage::url($artwork->user->artistProfile->profile_picture) }}" class="rounded-circle shadow-sm" style="width: 60px; height: 60px; object-fit: cover;" alt="{{ $artwork->user->name }}">
                             @else
@@ -171,6 +122,32 @@
                                 <p class="text-muted mb-0 small">Visit Profile <i class="bi-arrow-right-short"></i></p>
                             </div>
                         </a>
+
+                        {{-- 3. IMAGE CAROUSEL (Now located below profile on Desktop) --}}
+                        <div class="mt-4">
+                            @if($artwork->category == 'Craft' && !empty($artwork->additional_images))
+                                <div class="swiper artworkDetailSwiper rounded shadow-sm" style="width: 100%; height: 350px;">
+                                    <div class="swiper-wrapper">
+                                        {{-- Main --}}
+                                        <div class="swiper-slide bg-light d-flex align-items-center justify-content-center">
+                                            <img src="{{ $artwork->high_res_url }}" class="img-fluid" style="max-height: 100%; width: auto; object-fit: contain;">
+                                        </div>
+                                        {{-- Extras --}}
+                                        @foreach($artwork->additional_images as $path)
+                                            <div class="swiper-slide bg-light d-flex align-items-center justify-content-center">
+                                                <img src="{{ Storage::url($path) }}" class="img-fluid" style="max-height: 100%; width: auto; object-fit: contain;">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="swiper-button-next"></div>
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-pagination"></div>
+                                </div>
+                            @else
+                                {{-- Single Image --}}
+                                <img src="{{ $artwork->high_res_url }}" class="img-fluid rounded shadow-sm w-100" alt="{{ $artwork->title }}">
+                            @endif
+                        </div>
 
                     </div>
                 </div>
@@ -189,9 +166,8 @@
                     navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
                     pagination: { clickable: true },
                     loop: true,
-                    spaceBetween: 30,
-                    centeredSlides: true,
-                    autoplay: { delay: 3500, disableOnInteraction: false }
+                    spaceBetween: 10,
+                    autoplay: { delay: 4000, disableOnInteraction: false }
                 });
             });
         </script>
