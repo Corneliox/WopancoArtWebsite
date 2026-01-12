@@ -1,4 +1,4 @@
-<x-auth-layout>
+<x-layouts.auth-layout>
     {{-- Container for the Form --}}
     <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
         
@@ -85,4 +85,4 @@
             }
         </script>
     </div>
-</x-auth-layout>
+</x-layouts.auth-layout>

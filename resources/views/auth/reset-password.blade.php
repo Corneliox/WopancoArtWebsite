@@ -1,4 +1,4 @@
-<x-auth-layout>
+<x-layouts.auth-layout>
     <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
         <h2 class="text-center text-2xl font-bold mb-6 text-gray-800">{{ __('Reset Password') }}</h2>
 
@@ -36,4 +36,4 @@
             </div>
         </form>
     </div>
-</x-auth-layout>
+</x-layouts.auth-layout>
