@@ -111,9 +111,16 @@ class ArtworkController extends Controller
         // --- HANDLE EXTRA IMAGES (CRAFT ONLY) ---
         $additionalPaths = [];
         if ($request->category === 'Craft' && $request->hasFile('extra_images')) {
-            foreach ($request->file('extra_images') as $file) {
-                // We don't apply rotation to bulk extras for simplicity here
-                $additionalPaths[] = $this->uploadImage($file, 'artworks/extras');
+            // Get the array of rotations from the form
+            $extraRotations = $request->input('extra_rotations', []);
+
+            // Loop through the uploaded files
+            foreach ($request->file('extra_images') as $index => $file) {
+                // Find the corresponding rotation for this file index (default to 0)
+                $rot = isset($extraRotations[$index]) ? $extraRotations[$index] : 0;
+                
+                // Upload with specific rotation
+                $additionalPaths[] = $this->uploadImage($file, 'artworks/extras', $rot);
             }
         }
 

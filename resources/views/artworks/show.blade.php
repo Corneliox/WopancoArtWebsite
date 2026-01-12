@@ -2,20 +2,24 @@
 
 @use('Illuminate\Support\Str')
 
-{{-- Add Swiper CSS --}}
-@section('styles')
+{{-- Push styles to the scripts stack or putting them inline ensures they load --}}
+@push('scripts')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
     .swiper-button-next, .swiper-button-prev {
         color: #fff; 
-        background: rgba(0,0,0,0.3);
+        background: rgba(0,0,0,0.5); /* Darker background for visibility */
         width: 40px; height: 40px; border-radius: 50%;
+        backdrop-filter: blur(2px);
+    }
+    .swiper-button-next:after, .swiper-button-prev:after {
+        font-size: 18px; font-weight: bold;
     }
     .swiper-pagination-bullet-active {
-        background: var(--primary-color);
+        background: var(--primary-color, #000);
     }
 </style>
-@endsection
+@endpush
 
 @section('content')
 
@@ -51,19 +55,22 @@
                     {{-- CASE A: CRAFT WITH EXTRA IMAGES -> CAROUSEL --}}
                     @if($artwork->category == 'Craft' && !empty($artwork->additional_images))
                         
-                        <div class="swiper artworkDetailSwiper mb-4 rounded shadow-lg float-md-end ms-md-4" style="max-width: 400px; width: 100%;">
+                        {{-- FIX: Removed 'float-md-end' and added 'mx-auto' to center it properly --}}
+                        <div class="swiper artworkDetailSwiper mb-5 rounded shadow-lg mx-auto" style="max-width: 100%; width: 500px; height: 400px;">
                             <div class="swiper-wrapper">
                                 {{-- 1. Main Image --}}
-                                <div class="swiper-slide">
-                                    <img src="{{ $artwork->high_res_url }}" class="img-fluid w-100" style="height: 350px; object-fit: cover;">
+                                <div class="swiper-slide bg-light d-flex align-items-center justify-content-center">
+                                    <img src="{{ $artwork->high_res_url }}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                                 </div>
                                 {{-- 2. Extra Images --}}
                                 @foreach($artwork->additional_images as $path)
-                                    <div class="swiper-slide">
-                                        <img src="{{ Storage::url($path) }}" class="img-fluid w-100" style="height: 350px; object-fit: cover;">
+                                    <div class="swiper-slide bg-light d-flex align-items-center justify-content-center">
+                                        <img src="{{ Storage::url($path) }}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                                     </div>
                                 @endforeach
                             </div>
+                            
+                            {{-- Controls --}}
                             <div class="swiper-button-next"></div>
                             <div class="swiper-button-prev"></div>
                             <div class="swiper-pagination"></div>
@@ -172,17 +179,23 @@
         </div>
     </section>
 
-    {{-- Swiper Logic (Only if needed) --}}
+    {{-- Swiper Logic --}}
     @if($artwork->category == 'Craft' && !empty($artwork->additional_images))
+        @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <script>
-            new Swiper(".artworkDetailSwiper", {
-                navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-                pagination: { clickable: true },
-                loop: true,
-                autoplay: { delay: 3000 }
+            document.addEventListener("DOMContentLoaded", function() {
+                new Swiper(".artworkDetailSwiper", {
+                    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+                    pagination: { clickable: true },
+                    loop: true,
+                    spaceBetween: 30,
+                    centeredSlides: true,
+                    autoplay: { delay: 3500, disableOnInteraction: false }
+                });
             });
         </script>
+        @endpush
     @endif
 
 @endsection
