@@ -270,5 +270,24 @@ Route::get('/fix-missing-slugs', function () {
     return "<h1>Success! Fixed slugs for $count users.</h1><br>Go back to <a href='/'>Homepage</a>";
 });
 
+// --- TEMPORARY EMAIL DEBUG ROUTE ---
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/debug-email', function () {
+    try {
+        // Replace this with your PERSONAL email (gmail/yahoo) to test reception
+        $targetEmail = 'corneliox@gmail.com'; // OR YOUR EMAIL
+
+        Mail::raw('Test email content. If you see this, SMTP is working!', function ($msg) use ($targetEmail) {
+            $msg->to($targetEmail)
+                ->subject('Wopanco SMTP Debug Test');
+        });
+
+        return '<h1>✅ SUCCESS!</h1> <p>Email was sent successfully. Check your inbox (and spam folder) for ' . $targetEmail . '.</p>';
+    } catch (\Exception $e) {
+        return '<h1>❌ FAILED</h1>' .
+               '<strong>Error Message:</strong> ' . $e->getMessage();
+    }
+});
 
 require __DIR__.'/auth.php';
