@@ -172,6 +172,41 @@
             @media (min-width: 992px) {
                 .bottom-nav { display: none; }
             }
+
+            /* This ensures the white box looks like a card even if Tailwind fails */
+            .auth-card {
+                background: #ffffff;
+                padding: 2rem;
+
+                border-radius: 12px;
+
+                /* Visible border */
+                border: 1px solid rgba(0, 0, 0, 0.12);
+
+                /* Soft inner separation */
+                box-shadow:
+                    0 0 0 1px rgba(0, 0, 0, 0.04),
+                    0 10px 25px -8px rgba(0, 0, 0, 0.15),
+                    0 4px 10px -6px rgba(0, 0, 0, 0.10);
+
+                width: 100%;
+                max-width: 450px;
+                margin: 0 auto;
+            }
+
+            /* Fix Bootstrap overriding Tailwind inputs */
+            .auth-card input {
+                display: block;
+                width: 100%;
+                padding: 0.5rem 0.75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                color: #374151;
+                background-color: #fff;
+                border: 1px solid #d1d5db;
+                border-radius: 0.375rem;
+                margin-bottom: 1rem;
+            }
         </style>
     </head>
     
