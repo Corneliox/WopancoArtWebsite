@@ -25,20 +25,19 @@
         /* --- FORM CONTAINER STYLE --- */
         /* This ensures the white box looks like a card even if Tailwind fails */
         .auth-card {
-            background: white;
+            background: #ffffff;
             padding: 2rem;
 
-            /* Rounded corners (same feel, slightly cleaner) */
             border-radius: 12px;
 
-            /* Visible outline */
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            outline: 1px solid rgba(0, 0, 0, 0.04);
+            /* Visible border */
+            border: 1px solid rgba(0, 0, 0, 0.12);
 
-            /* Stronger, cleaner shadow */
+            /* Soft inner separation */
             box-shadow:
-                0 8px 20px -6px rgba(0, 0, 0, 0.12),
-                0 4px 8px -4px rgba(0, 0, 0, 0.08);
+                0 0 0 1px rgba(0, 0, 0, 0.04),
+                0 10px 25px -8px rgba(0, 0, 0, 0.15),
+                0 4px 10px -6px rgba(0, 0, 0, 0.10);
 
             width: 100%;
             max-width: 450px;
