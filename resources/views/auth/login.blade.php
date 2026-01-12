@@ -31,9 +31,7 @@
                                     name="password"
                                     required autocomplete="current-password" />
 
-                    <span class="absolute inset-y-0 right-0 flex items-center justify-center cursor-pointer text-gray-400 hover:text-gray-600"
-                          style="width: 50px;"
-                          onclick="togglePassword('password', 'login-eye')">
+                    <span class="absolute-icon" onclick="togglePassword('password', 'login-eye')">
                         <i id="login-eye" class="bi bi-eye-slash text-xl"></i>
                     </span>
                 </div>
