@@ -20,7 +20,7 @@
         <link href="{{ asset('css/templatemo-topic-listing.css') }}" rel="stylesheet">
         
         {{-- === AUTH STYLES === --}}
-        <!-- @stack('styles') -->
+        @stack('styles')
 
         {{-- === CUSTOM NAVBAR STYLES === --}}
         <style>
