@@ -173,39 +173,105 @@
                 .bottom-nav { display: none; }
             }
 
-            /* This ensures the white box looks like a card even if Tailwind fails */
+            /* ... existing navbar styles ... */
+
+            /* ========================================= */
+            /* AUTH CARD STYLING (Login/Register Forms)  */
+            /* ========================================= */
+            
+            /* 1. The Wrapper (Background & Centering) */
+            #auth-wrapper {
+                min-height: 100vh;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding-top: 80px; /* Account for fixed navbar */
+                padding-bottom: 40px;
+                background-color: #f3f4f6; /* Soft Gray Background */
+            }
+
+            /* 2. The White Card Box */
             .auth-card {
                 background: #ffffff;
-                padding: 2rem;
-
-                border-radius: 12px;
-
-                /* Visible border */
-                border: 1px solid rgba(0, 0, 0, 0.12);
-
-                /* Soft inner separation */
-                box-shadow:
-                    0 0 0 1px rgba(0, 0, 0, 0.04),
-                    0 10px 25px -8px rgba(0, 0, 0, 0.15),
-                    0 4px 10px -6px rgba(0, 0, 0, 0.10);
-
+                padding: 2.5rem; /* Spacious padding */
+                border-radius: 16px; /* Smooth corners */
                 width: 100%;
                 max-width: 450px;
                 margin: 0 auto;
+                position: relative;
+
+                /* Crisp border */
+                border: 1px solid rgba(0, 0, 0, 0.08);
+
+                /* Professional Shadow (Depth) */
+                box-shadow: 
+                    0 10px 15px -3px rgba(0, 0, 0, 0.05), 
+                    0 4px 6px -2px rgba(0, 0, 0, 0.025);
             }
 
-            /* Fix Bootstrap overriding Tailwind inputs */
-            .auth-card input {
+            /* 3. Input Fields */
+            .auth-card input.form-control {
                 display: block;
                 width: 100%;
-                padding: 0.5rem 0.75rem;
-                font-size: 1rem;
-                line-height: 1.5;
-                color: #374151;
+                padding: 0.75rem 1rem;
+                font-size: 0.95rem;
+                color: #1f2937;
                 background-color: #fff;
-                border: 1px solid #d1d5db;
-                border-radius: 0.375rem;
-                margin-bottom: 1rem;
+                border: 1px solid #d1d5db; /* Neutral Gray Border */
+                border-radius: 10px;       /* Match card roundness */
+                transition: all 0.2s ease-in-out;
+                margin-bottom: 0.5rem; /* Spacing */
+            }
+
+            /* Input Focus State -> GLOWS TEAL (Your Brand) */
+            .auth-card input.form-control:focus {
+                border-color: var(--secondary-color);
+                box-shadow: 0 0 0 3px rgba(75, 114, 109, 0.2); /* Teal Glow */
+                outline: none;
+            }
+
+            /* 4. Submit Button -> RED (Your Brand) */
+            .auth-card button[type="submit"] {
+                width: 100%;
+                padding: 0.75rem;
+                font-weight: 600;
+                color: #ffffff;
+                background-color: var(--custom-btn-bg-color); /* Red */
+                border: none;
+                border-radius: 10px;
+                transition: background-color 0.3s ease;
+                margin-top: 1rem;
+            }
+
+            .auth-card button[type="submit"]:hover {
+                background-color: var(--custom-btn-bg-hover-color); /* Darker Red */
+            }
+
+            /* 5. Password Eye Icon Positioning */
+            .auth-card .position-relative {
+                position: relative;
+            }
+            .auth-card .toggle-password {
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: #6b7280; /* Gray Icon */
+                z-index: 10;
+            }
+            
+            /* 6. Links (Forgot Password / Register) */
+            .auth-card a {
+                color: var(--secondary-color);
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: color 0.2s;
+            }
+            .auth-card a:hover {
+                color: var(--primary-color);
+                text-decoration: underline;
             }
         </style>
     </head>
