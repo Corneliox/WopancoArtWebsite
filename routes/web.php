@@ -97,6 +97,7 @@ Route::get('/news/{news:slug}', [App\Http\Controllers\NewsController::class, 'sh
 // ===================================
 // 2. AUTHENTICATED ROUTES (LOGGED IN)
 // ===================================
+// Note: 'verified' middleware forces them to verify email before accessing these
 Route::middleware(['auth', 'verified'])->group(function () {
     
     // --- User Profile ---
@@ -115,17 +116,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/my-profile/artist', [ProfileController::class, 'updateArtistProfile'])->name('artist.profile.update');
     Route::post('/profile/set-gate', [ProfileController::class, 'setAsGate'])->name('profile.set-gate'); // Admin Helper
 
-    // --- ARTWORK MANAGEMENT (The Missing Piece) ---
+    // --- ARTWORK MANAGEMENT ---
     Route::prefix('my-artworks')->name('artworks.')->group(function () {
         Route::get('/', [ArtworkController::class, 'index'])->name('index');      // List
         Route::get('/create', [ArtworkController::class, 'create'])->name('create'); // Form
         Route::post('/', [ArtworkController::class, 'store'])->name('store');     // Save
         
-        // Note: Using {artwork} implies ID. If your controller uses slug, change to {artwork:slug}
+        // Use {artwork} for ID binding (Standard)
         Route::get('/{artwork}/edit', [ArtworkController::class, 'edit'])->name('edit');     // Edit Form
         Route::patch('/{artwork}', [ArtworkController::class, 'update'])->name('update');    // Update
         Route::delete('/{artwork}', [ArtworkController::class, 'destroy'])->name('destroy'); // Delete
         
+        // Show route for previewing own artwork in dashboard context if needed
+        Route::get('/{artwork}', [ArtworkController::class, 'show'])->name('show');
+
         // NEW: Route to handle the "Pull Image" AJAX request
         Route::post('/preview-from-url', [ArtworkController::class, 'previewImage'])->name('preview');
 
@@ -143,6 +147,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // ===================================
 // 3. ADMIN DASHBOARD
 // ===================================
+// Note: 'verified' is also required here
 Route::get('/dashboard', function () {
     // 1. Fetch Unseen Contact Submissions
     $unseenSubmissions = ContactSubmission::where('is_seen', false)->latest()->get();
@@ -210,7 +215,6 @@ Route::middleware(['auth', 'admin', SuperAdminDeviceCheck::class]) // <--- The C
     Route::resource('hero', HeroImageController::class)->except(['show', 'edit', 'update']);
     
     // NEW: Superadmin Global Artwork Management
-    // (Assuming you created the Admin/ArtworkController I mentioned in the previous step)
     Route::get('/all-artworks', [App\Http\Controllers\Admin\ArtworkController::class, 'index'])->name('artworks.index');
 
     // The "Hard Execute" Route
