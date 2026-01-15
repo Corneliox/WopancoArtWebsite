@@ -76,7 +76,7 @@
                 <div class="col-lg-8 offset-lg-2 col-12">
 
                     {{-- A. PROFILE INFORMATION CARD --}}
-                    <div class="auth-card mb-4" id="update-profile-information">
+                    <div class="auth-card mb-4" id="update-profile-information" style="max-width:100%; ">
                         <div class="d-flex align-items-center mb-4">
                             <i class="bi bi-person-circle fs-3 me-3" style="color: #81131C;"></i>
                             <div>
@@ -115,7 +115,7 @@
                     </div>
 
                     {{-- B. UPDATE PASSWORD CARD --}}
-                    <div class="auth-card mb-4" id="update-password-information">
+                    <div class="auth-card mb-4" id="update-password-information" style="max-width:100%; ">
                         <div class="d-flex align-items-center mb-4">
                             <i class="bi bi-shield-lock-fill fs-3 me-3" style="color: #81131C;"></i>
                             <div>
@@ -158,7 +158,7 @@
 
                     {{-- C. ARTIST PROFILE CARD (Only if Artist) --}}
                     @if (Auth::user()->is_artist)
-                        <div class="auth-card mb-4" id="artist-profile-form" style="border-left: 5px solid #81131C;">
+                        <div class="auth-card mb-4" id="artist-profile-form" style="max-width:100%; border-left: 5px solid #81131C;">
                             <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-palette-fill fs-3 me-3" style="color: #81131C;"></i>
@@ -212,7 +212,7 @@
                     @endif
 
                     {{-- D. DELETE ACCOUNT CARD --}}
-                    <div class="auth-card border border-danger">
+                    <div class="auth-card border border-danger" style="max-width:100%; ">
                         <div class="d-flex align-items-center mb-3">
                             <i class="bi bi-exclamation-triangle-fill fs-3 me-3 text-danger"></i>
                             <h4 class="mb-0 text-danger fw-bold">Delete Account</h4>
