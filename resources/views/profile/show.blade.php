@@ -1,8 +1,39 @@
 @extends('layouts.main')
 
+{{-- REUSE THE PROFESSIONAL CARD STYLING --}}
+@push('styles')
+<style>
+    .auth-card {
+        background: #ffffff;
+        padding: 2.5rem;
+        border-radius: 16px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        height: 100%;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #4B726D; /* Secondary Color */
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px 15px;
+        border: 1px solid #ced4da;
+    }
+
+    .form-control:focus {
+        border-color: #4B726D;
+        box-shadow: 0 0 0 0.2rem rgba(75, 114, 109, 0.25);
+    }
+</style>
+@endpush
+
 @section('content')
 
-    {{-- 1. YOUR TEMPLATE'S HERO SECTION --}}
+    {{-- 1. HERO SECTION --}}
     <section class="hero-section" style="min-height: 250px;">
         <div class="container">
             <div class="row align-items-center" style="min-height: 250px;">
@@ -13,161 +44,134 @@
         </div>
     </section>
 
-    {{-- 2. THE CORRECTED FORMS --}}
-    <section class="section-padding">
+    {{-- 2. SETTINGS FORMS --}}
+    <section class="section-padding" style="background-color: #f8f9fa;">
         <div class="container">
-            <div class="row">
+            <div class="row g-4">
                 
-                {{-- Column for the forms --}}
                 <div class="col-lg-8 offset-lg-2 col-12">
 
-                    <div class="mb-5" id="update-profile-information">
-                        <h2 class="mb-3">Profile Information</h2>
-                        <p class="mb-4">Update your account's profile information and email address.</p>
+                    {{-- A. PROFILE INFORMATION CARD --}}
+                    <div class="auth-card mb-4" id="update-profile-information">
+                        <h4 class="mb-3 fw-bold" style="color: #81131C;">Profile Information</h4>
+                        <p class="text-muted small mb-4">Update your account's profile information and email address.</p>
 
-                        <form method="post" action="{{ route('profile.update') }}" class="custom-form">
+                        <form method="post" action="{{ route('profile.update') }}">
                             @csrf
                             @method('patch')
 
-                            {{-- Name Field (FIXED) --}}
+                            {{-- Name --}}
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input id="name" name="name" type="text" class="form-control" value="{{ old('name', $user->name) }}" required autofocus autocomplete="name" placeholder="Your Name">
+                                <input id="name" name="name" type="text" class="form-control" 
+                                       value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
+                                @error('name') <p class="text-danger small mt-1">{{ $message }}</p> @enderror
                             </div>
-                            @error('name')
-                                <p class="text-danger mb-3">{{ $message }}</p>
-                            @enderror
 
-                            {{-- Email Field (FIXED) --}}
-                            <div class="mb-3">
+                            {{-- Email --}}
+                            <div class="mb-4">
                                 <label for="email" class="form-label">Email Address</label>
-                                <input id="email" name="email" type="email" class="form-control" value="{{ old('email', $user->email) }}" required autocomplete="username" placeholder="your@email.com">
+                                <input id="email" name="email" type="email" class="form-control" 
+                                       value="{{ old('email', $user->email) }}" required autocomplete="username">
+                                @error('email') <p class="text-danger small mt-1">{{ $message }}</p> @enderror
                             </div>
-                            @error('email')
-                                <p class="text-danger mb-3">{{ $message }}</p>
-                            @enderror
                             
-                            {{-- "Saved" Message --}}
-                            <div class="d-flex align-items-center">
-                                <button type="submit" class="custom-btn">Save</button>
-                                @if (session('status') === 'profile-updated')
-                                    <p class="text-success ms-3 mb-0">Saved.</p>
-                                @endif
-                            </div>
+                            <button type="submit" class="btn custom-btn">Save Changes</button>
+
+                            @if (session('status') === 'profile-updated')
+                                <span class="text-success ms-3 small fw-bold"><i class="bi bi-check-circle"></i> Saved.</span>
+                            @endif
                         </form>
                     </div>
 
-                    <hr class="my-5">
+                    {{-- B. UPDATE PASSWORD CARD --}}
+                    <div class="auth-card mb-4" id="update-password-information">
+                        <h4 class="mb-3 fw-bold" style="color: #81131C;">Update Password</h4>
+                        <p class="text-muted small mb-4">Ensure your account is using a long, random password to stay secure.</p>
 
-                    <div class="mb-5" id="update-password-information">
-                        <h2 class="mb-3">Update Password</h2>
-                        <p class="mb-4">Ensure your account is using a long, random password to stay secure.</p>
-
-                        <form method="post" action="{{ route('password.update') }}" class="custom-form">
+                        <form method="post" action="{{ route('password.update') }}">
                             @csrf
                             @method('put')
 
-                            {{-- Current Password (FIXED) --}}
                             <div class="mb-3">
                                 <label for="current_password" class="form-label">Current Password</label>
-                                <input id="current_password" name="current_password" type="password" class="form-control" autocomplete="current-password" placeholder="Your Current Password">
+                                <input id="current_password" name="current_password" type="password" class="form-control" autocomplete="current-password">
+                                @error('current_password', 'updatePassword') <p class="text-danger small mt-1">{{ $message }}</p> @enderror
                             </div>
-                            @error('current_password', 'updatePassword')
-                                <p class="text-danger mb-3">{{ $message }}</p>
-                            @enderror
 
-                            {{-- New Password (FIXED) --}}
                             <div class="mb-3">
                                 <label for="password" class="form-label">New Password</label>
-                                <input id="password" name="password" type="password" class="form-control" autocomplete="new-password" placeholder="New Secure Password">
+                                <input id="password" name="password" type="password" class="form-control" autocomplete="new-password">
+                                @error('password', 'updatePassword') <p class="text-danger small mt-1">{{ $message }}</p> @enderror
                             </div>
-                            @error('password', 'updatePassword')
-                                <p class="text-danger mb-3">{{ $message }}</p>
-                            @enderror
 
-                            {{-- Confirm Password (FIXED) --}}
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                <input id="password_confirmation" name="password_confirmation" type="password" class="form-control" autocomplete="new-password" placeholder="Confirm New Password">
+                                <input id="password_confirmation" name="password_confirmation" type="password" class="form-control" autocomplete="new-password">
+                                @error('password_confirmation', 'updatePassword') <p class="text-danger small mt-1">{{ $message }}</p> @enderror
                             </div>
-                            @error('password_confirmation', 'updatePassword')
-                                <p class="text-danger mb-3">{{ $message }}</p>
-                            @enderror
 
-                            {{-- "Saved" Message --}}
-                            <div class="d-flex align-items-center">
-                                <button type="submit" class="custom-btn">Save</button>
-                                @if (session('status') === 'password-updated')
-                                    <p class="text-success ms-3 mb-0">Saved.</p>
-                                @endif
-                            </div>
+                            <button type="submit" class="btn custom-btn">Update Password</button>
+
+                            @if (session('status') === 'password-updated')
+                                <span class="text-success ms-3 small fw-bold"><i class="bi bi-check-circle"></i> Saved.</span>
+                            @endif
                         </form>
                     </div>
 
-                    {{-- =================================== --}}
-                    {{-- 3. ARTIST PROFILE SECTION (FIXED!)  --}}
-                    {{-- =================================== --}}
+                    {{-- C. ARTIST PROFILE CARD (Only if Artist) --}}
                     @if (Auth::user()->is_artist)
-                        <hr class="my-5">
-
-                        <h2 class="mb-3" id="artist-profile-form">My Artist Profile</h2>
-                        <p class="mb-4">This information is visible to everyone on your public "Pelukis" page.</p>
-
-                        <form method="post" action="{{ route('artist.profile.update') }}" class="custom-form" enctype="multipart/form-data">
-                            @csrf
-                            @method('patch')
-
-                            {{-- Profile Picture (FIXED ALIGNMENT) --}}
-                            <div class="mb-4">
-                                <label class="form-label d-block">Current Profile Picture</label>
-                                @if ($profile->profile_picture)
-                                    <img src="{{ Storage::url($profile->profile_picture) }}" class="artist-profile-frame" style="width: 150px; height: 150px; margin-bottom: 15px;" alt="Current Profile Picture">
-                                @else
-                                    <img src="{{ asset('images/topics/undraw_happy_music_g6wc.png') }}" class="artist-profile-frame" style="width: 150px; height: 150px; margin-bottom: 15px;" alt="Default Profile Picture">
-                                @endif
-                                
-                                </br>
-                                
-                                <label for="profile_picture" class="form-label">Upload New Picture</label>
-                                <input class="form-control" type="file" id="profile_picture" name="profile_picture">
-                                @error('profile_picture')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror
+                        <div class="auth-card mb-4" id="artist-profile-form" style="border-left: 5px solid #81131C;">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="fw-bold mb-0" style="color: #81131C;">Artist Profile</h4>
+                                <span class="badge bg-primary">Artist Account</span>
                             </div>
+                            <p class="text-muted small mb-4">This information is visible to everyone on your public page.</p>
 
-                            {{-- About Section (FIXED with Rich Editor) --}}
-                            <div class="mb-3">
-                                <label for="about" class="form-label">About Me</label>
-                                {{-- ADDED 'rich-editor' class below --}}
-                                <textarea class="form-control rich-editor" id="about" name="about" style="height: 200px;" placeholder="Tell everyone about yourself...">{{ old('about', $profile->about) }}</textarea>
-                            </div>
-                            @error('about')
-                                <p class="text-danger mb-3">{{ $message }}</p>
-                            @enderror
-                            
-                            {{-- "Saved" Message --}}
-                            <div class="d-flex align-items-center">
-                                <button type="submit" class="custom-btn">Save Artist Profile</button>
+                            <form method="post" action="{{ route('artist.profile.update') }}" enctype="multipart/form-data">
+                                @csrf
+                                @method('patch')
+
+                                {{-- Picture --}}
+                                <div class="row align-items-center mb-4">
+                                    <div class="col-md-3 text-center">
+                                        @if ($profile->profile_picture)
+                                            <img src="{{ Storage::url($profile->profile_picture) }}" class="rounded-circle shadow-sm border" style="width: 100px; height: 100px; object-fit: cover;">
+                                        @else
+                                            <img src="{{ asset('images/topics/undraw_happy_music_g6wc.png') }}" class="rounded-circle shadow-sm border" style="width: 100px; height: 100px; object-fit: cover;">
+                                        @endif
+                                    </div>
+                                    <div class="col-md-9">
+                                        <label for="profile_picture" class="form-label">Change Profile Picture</label>
+                                        <input class="form-control" type="file" id="profile_picture" name="profile_picture" accept="image/*">
+                                        @error('profile_picture') <p class="text-danger small mt-1">{{ $message }}</p> @enderror
+                                    </div>
+                                </div>
+
+                                {{-- About (Rich Editor) --}}
+                                <div class="mb-4">
+                                    <label for="about" class="form-label">About Me (Bio)</label>
+                                    {{-- PRE-FILL DATA LOGIC IS HERE: old('about', $profile->about) --}}
+                                    <textarea class="form-control rich-editor" id="about" name="about" style="height: 200px;">{{ old('about', $profile->about) }}</textarea>
+                                    @error('about') <p class="text-danger small mt-1">{{ $message }}</p> @enderror
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="submit" class="btn custom-btn">Save Artist Profile</button>
+                                    <a href="{{ route('artworks.index') }}" class="btn btn-outline-dark">Manage My Artworks <i class="bi-arrow-right"></i></a>
+                                </div>
+
                                 @if (session('status') === 'artist-profile-updated')
-                                    <p class="text-success ms-3 mb-0">Saved.</p>
+                                    <div class="mt-3 text-success small fw-bold"><i class="bi bi-check-circle"></i> Profile Updated!</div>
                                 @endif
-                            </div>
-                        </form>
-
-                        <hr class="my-5">
-
-                        {{-- Artwork Management Section --}}
-                        <h2 class="mb-3">My Artworks</h2>
-                        <p>Manage your "Lukisan" and "Craft" galleries here.</p>
-                        <a href="{{ route('artworks.index') }}" class="custom-btn">Manage My Artworks</a>
+                            </form>
+                        </div>
                     @endif
 
-
-                    <hr class="my-5">
-
-                    <div>
-                        <h2 class="mb-3 text-danger">Delete Account</h2>
-                        <p>Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.</p>
+                    {{-- D. DELETE ACCOUNT CARD --}}
+                    <div class="auth-card border-danger">
+                        <h4 class="mb-3 text-danger fw-bold">Delete Account</h4>
+                        <p class="text-muted small">Once your account is deleted, all of its resources and data will be permanently deleted.</p>
                         
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmUserDeletionModal">
                             Delete Account
@@ -179,76 +183,49 @@
         </div>
     </section>
 
-    <div class="modal fade" id="confirmUserDeletionModal" tabindex="-1" aria-labelledby="confirmUserDeletionModalLabel" aria-hidden="true">
+    {{-- DELETE MODAL --}}
+    <div class="modal fade" id="confirmUserDeletionModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form method="post" action="{{ route('profile.destroy') }}" class="custom-form p-4">
+                <form method="post" action="{{ route('profile.destroy') }}" class="p-4">
                     @csrf
                     @method('delete')
 
-                    <div class="modal-header border-0">
-                        <h5 class="modal-title" id="confirmUserDeletionModalLabel">Are you sure?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header border-0 p-0 mb-3">
+                        <h5 class="modal-title text-danger fw-bold">Are you sure?</h5>
                     </div>
-                    <div class="modal-body">
-                        <p>Once your account is deleted, all data will be permanently lost. Please enter your password to confirm you would like to permanently delete your account.</p>
-                        
-                        {{-- Password (FIXED) --}}
-                        <div class="mb-3">
-                            <label for="password_delete" class="form-label">Password</label>
-                            <input id="password_delete" name="password" type="password" class="form-control" placeholder="Password" autocomplete="current-password">
-                        </div>
-                        @error('password', 'userDeletion')
-                            <p class="text-danger mb-3">{{ $message }}</p>
-                        @enderror
+                    <div class="modal-body p-0 mb-3">
+                        <p class="small text-muted">Please enter your password to confirm you would like to permanently delete your account.</p>
+                        <input id="password_delete" name="password" type="password" class="form-control" placeholder="Current Password">
+                        @error('password', 'userDeletion') <p class="text-danger small mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="modal-footer border-0">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <div class="modal-footer border-0 p-0">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-danger">Delete Account</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
 @endsection
 
-{{-- This must be at the very end of the file, after @endsection --}}
 @push('scripts')
 <script>
-    // We must wait for the *entire* window (all images, scripts, etc.) to finish loading.
+    // Smooth Scroll to specific sections (e.g., if redirecting back with errors)
     window.addEventListener('load', function() {
-        
-        // Check if there's a hash in the URL (e.g., #update-password-information)
         if (window.location.hash) {
-            
-            // Give all other scripts (like click-scroll.js) time to finish.
-            // 300ms is usually long enough.
             setTimeout(function() {
                 try {
-                    // Find the element we want to scroll to
                     var element = document.querySelector(window.location.hash);
-                    
                     if (element) {
-                        // Get the height of your sticky header.
-                        // Your navbar is about 80px high, so we'll add 20px of padding.
                         var headerOffset = 100; 
-                        
-                        // Get the element's position on the page
                         var elementPosition = element.getBoundingClientRect().top;
-                        
-                        // Calculate the final scroll position (element's top + current scroll - header height)
                         var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                        
-                        // Manually scroll to that exact position
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth'
-                        });
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                     }
-                } catch(e) {
-                    console.error("Error scrolling to fragment:", e);
-                }
-            }, 300); // 300ms delay
+                } catch(e) {}
+            }, 300);
         }
     });
 </script>
