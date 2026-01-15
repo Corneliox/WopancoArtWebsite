@@ -10,6 +10,7 @@
         border: 1px solid rgba(0, 0, 0, 0.08);
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         height: 100%;
+        max-width: 100%;
     }
     
     .form-label {
@@ -49,7 +50,7 @@
         <div class="container">
             <div class="row g-4">
                 
-                <div class="col-lg-10 offset-lg-2 col-12">
+                <div class="col-lg-8 offset-lg-2 col-12">
 
                     {{-- A. PROFILE INFORMATION CARD --}}
                     <div class="auth-card mb-4" id="update-profile-information">
