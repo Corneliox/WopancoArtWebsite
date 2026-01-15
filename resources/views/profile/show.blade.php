@@ -1,5 +1,8 @@
 @extends('layouts.main')
 
+{{-- === AUTH STYLES === --}}
+@stack('styles')
+
 {{-- REUSE THE PROFESSIONAL CARD STYLING --}}
 @push('styles')
 <style>
