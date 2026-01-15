@@ -24,6 +24,16 @@
 
         {{-- === CUSTOM NAVBAR STYLES === --}}
         <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh; /* Force body to be at least screen height */
+            }
+            
+            main {
+                flex: 1; /* This makes the main content grow to fill empty space */
+            }
+            
             /* 1. TRANSITION SETUP */
             .navbar {
                 background-color: transparent; 
