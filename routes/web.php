@@ -210,6 +210,7 @@ Route::middleware(['auth', 'admin', SuperAdminDeviceCheck::class]) // <--- The C
     // Contact Submissions
     Route::get('/contact-submissions', [AdminContactController::class, 'index'])->name('contact.index');
     Route::patch('/contact-submissions/{submission}', [AdminContactController::class, 'update'])->name('contact.update');
+    Route::post('/contact-submissions/{submission}/reply', [AdminContactController::class, 'reply'])->name('contact.reply');
 
     // Hero Carousel
     Route::resource('hero', HeroImageController::class)->except(['show', 'edit', 'update']);

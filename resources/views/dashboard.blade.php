@@ -114,7 +114,7 @@
     {{-- 2. CONTACT FEEDBACK SECTION                              --}}
     {{-- ======================================================== --}}
     @if(isset($unseenSubmissions) && $unseenSubmissions->count() > 0)
-        <div class="pb-6">
+        <div class="pb-6" x-data="{ replyModal: false, selected: null }">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <h3 class="mb-4 text-lg font-semibold text-gray-700 dark:text-gray-300">New Feedback</h3>
                 
@@ -132,7 +132,7 @@
                             </div>
                         </div>
 
-                        {{-- Green Tick Button --}}
+                        {{-- Green Tick Button (Mark as Seen) --}}
                         <form method="POST" action="{{ route('admin.contact.update', $submission) }}" 
                               class="absolute top-4 right-4"
                               @submit.prevent="show = false; setTimeout(() => $el.submit(), 300)">
@@ -144,9 +144,61 @@
                                 </svg>
                             </button>
                         </form>
+
+                        {{-- Reply Button --}}
+                        <button type="button" 
+                                class="absolute top-14 right-4 text-gray-400 hover:text-blue-500 transition-colors" 
+                                title="Reply"
+                                @click="selected = {{ $submission->toJson() }}; replyModal = true">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </button>
                     </div>
                 @endforeach
             </div>
+
+            {{-- REPLY MODAL --}}
+            <div x-show="replyModal" 
+                 style="display: none;"
+                 class="fixed inset-0 z-50 overflow-y-auto" 
+                 aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <div x-show="replyModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="replyModal = false"></div>
+
+                    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                    <div x-show="replyModal"
+                         class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+                        
+                        <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-title">
+                                Reply to <span x-text="selected?.name"></span>
+                            </h3>
+                            
+                            <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                <p class="italic mb-2 border-l-4 border-gray-300 pl-2">"<span x-text="selected?.feedback"></span>"</p>
+                            </div>
+
+                            <form :action="`/admin/contact-submissions/${selected?.id}/reply`" method="POST" class="mt-4">
+                                @csrf
+                                <textarea name="reply_message" rows="4" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm" placeholder="Type your reply here..." required></textarea>
+                                
+                                <div class="mt-4 flex justify-end gap-2">
+                                    <button type="button" class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:text-sm" @click="replyModal = false">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 sm:text-sm">
+                                        Send Reply
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     @endif
 
