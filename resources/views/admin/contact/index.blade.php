@@ -95,7 +95,7 @@
                  x-transition:leave="transform transition ease-in duration-200"
                  x-transition:leave-start="translate-y-0 opacity-100"
                  x-transition:leave-end="translate-y-full opacity-0"
-                 class="fixed bottom-0 right-4 bg-white dark:bg-gray-800 rounded-t-lg shadow-2xl w-full sm:max-w-2xl border border-gray-200 dark:border-gray-700 h-auto max-h-[85vh] flex flex-col pointer-events-auto z-50">
+                 class="fixed bottom-0 right-0 bg-white dark:bg-gray-800 rounded-t-lg shadow-2xl w-full sm:max-w-2xl border border-gray-200 dark:border-gray-700 h-auto max-h-[85vh] flex flex-col pointer-events-auto z-50 sm:mr-4">
                 
                 {{-- Header --}}
                 <div class="bg-gray-900 text-white px-4 py-3 flex justify-between items-center rounded-t-lg cursor-pointer flex-shrink-0" @click="showModal = false">
