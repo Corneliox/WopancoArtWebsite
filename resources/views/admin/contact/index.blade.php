@@ -118,7 +118,7 @@
                     </div>
 
                     {{-- Content Body (Scrollable) --}}
-                    <div class="bg-white dark:bg-gray-800 px-6 py-4 overflow-y-auto flex-1">
+                    <div class="bg-white dark:bg-gray-800 px-6 py-4 overflow-y-auto">
                         
                         {{-- Meta Info --}}
 
