@@ -68,82 +68,240 @@
             </div>
         </div>
 
-        {{-- MODAL --}}
-        <div x-show="showModal" 
-             style="display: none;"
-             class="fixed inset-0 z-50 overflow-y-auto" 
-             aria-labelledby="modal-title" role="dialog" aria-modal="true">
-             
-            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                {{-- Backdrop --}}
-                <div x-show="showModal"
-                     x-transition:enter="ease-out duration-300"
-                     x-transition:enter-start="opacity-0"
-                     x-transition:enter-end="opacity-100"
-                     x-transition:leave="ease-in duration-200"
-                     x-transition:leave-start="opacity-100"
-                     x-transition:leave-end="opacity-0"
-                     class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
-                     @click="showModal = false"
-                     aria-hidden="true"></div>
+                {{-- MODAL --}}
 
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div x-show="showModal" 
 
-                {{-- Modal Panel --}}
-                <div x-show="showModal"
-                     x-transition:enter="ease-out duration-300"
-                     x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                     x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                     x-transition:leave="ease-in duration-200"
-                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                     class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
-                    
-                    <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-title">
-                                    Message Details
+                     style="display: none;"
+
+                     class="fixed inset-0 z-50 overflow-y-auto" 
+
+                     aria-labelledby="modal-title" role="dialog" aria-modal="true">
+
+                     
+
+                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+                        {{-- Backdrop --}}
+
+                        <div x-show="showModal"
+
+                             x-transition:enter="ease-out duration-300"
+
+                             x-transition:enter-start="opacity-0"
+
+                             x-transition:enter-end="opacity-100"
+
+                             x-transition:leave="ease-in duration-200"
+
+                             x-transition:leave-start="opacity-100"
+
+                             x-transition:leave-end="opacity-0"
+
+                             class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
+
+                             @click="showModal = false"
+
+                             aria-hidden="true"></div>
+
+        
+
+                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+        
+
+                        {{-- Modal Panel (Gmail Style) --}}
+
+                        <div x-show="showModal"
+
+                             x-transition:enter="ease-out duration-300"
+
+                             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+
+                             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+
+                             x-transition:leave="ease-in duration-200"
+
+                             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+
+                             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+
+                             class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-t-lg sm:rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl w-full">
+
+                            
+
+                            {{-- Header --}}
+
+                            <div class="bg-gray-100 dark:bg-gray-700 px-4 py-3 flex justify-between items-center border-b border-gray-200 dark:border-gray-600">
+
+                                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+
+                                    Reply to Message
+
                                 </h3>
-                                <div class="mt-4 space-y-3 text-sm text-gray-500 dark:text-gray-300">
-                                    <p><strong>Status:</strong> <span x-text="selected?.is_seen ? 'Seen' : 'New'" :class="selected?.is_seen ? 'text-green-600' : 'text-yellow-600'"></span></p>
-                                    <p><strong>Name:</strong> <span x-text="selected?.name"></span></p>
-                                    <p><strong>Email:</strong> <span x-text="selected?.email"></span></p>
-                                    <p><strong>Date:</strong> <span x-text="new Date(selected?.created_at).toLocaleDateString()"></span></p>
-                                    <hr class="border-gray-200 dark:border-gray-600">
-                                    <p><strong>Subject:</strong> <span x-text="selected?.subject"></span></p>
-                                    <div class="bg-gray-50 dark:bg-gray-900 p-3 rounded text-gray-800 dark:text-gray-200 whitespace-pre-wrap" x-text="selected?.feedback"></div>
+
+                                <button @click="showModal = false" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+
+                                    <span class="sr-only">Close</span>
+
+                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+        
+
+                            <div class="bg-white dark:bg-gray-800 px-6 py-4">
+
+                                
+
+                                {{-- Meta Info --}}
+
+                                <div class="mb-4 text-sm text-gray-600 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700 pb-4">
+
+                                    <div class="flex justify-between mb-1">
+
+                                        <span><strong>From:</strong> <span x-text="selected?.name"></span> &lt;<span x-text="selected?.email"></span>&gt;</span>
+
+                                        <span class="text-xs text-gray-500" x-text="new Date(selected?.created_at).toLocaleString()"></span>
+
+                                    </div>
+
+                                    <div class="mb-2"><strong>Subject:</strong> <span x-text="selected?.subject"></span></div>
+
+                                    <div class="bg-gray-50 dark:bg-gray-900 p-3 rounded text-gray-800 dark:text-gray-200 whitespace-pre-wrap italic border-l-4 border-gray-300 dark:border-gray-600" x-text="selected?.feedback"></div>
+
                                 </div>
+
+        
 
                                 {{-- REPLY FORM --}}
-                                <div class="mt-6">
-                                    <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-2">Reply</h4>
+
+                                <div x-data="{ 
+
+                                        replyBody: '', 
+
+                                        touched: false,
+
+                                        get error() {
+
+                                            if (this.touched && this.replyBody.trim().length === 0) return 'Message cannot be empty.';
+
+                                            if (this.touched && this.replyBody.trim().length < 10) return 'Message is too short (min 10 chars).';
+
+                                            return null;
+
+                                        },
+
+                                        get isValid() {
+
+                                            return this.replyBody.trim().length >= 10;
+
+                                        }
+
+                                     }">
+
                                     <form :action="`/admin/contact-submissions/${selected?.id}/reply`" method="POST">
+
                                         @csrf
-                                        <textarea name="reply_message" rows="4" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm" placeholder="Type your reply here..." required></textarea>
+
                                         
-                                        <div class="mt-4 flex justify-between items-center">
-                                            {{-- Mark as Seen Button (if needed separately, but Reply does it) --}}
-                                            <div x-show="!selected?.is_seen">
-                                                <span class="text-xs text-gray-500">Will be marked as seen upon reply.</span>
+
+                                        <div class="relative">
+
+                                            <textarea 
+
+                                                name="reply_message" 
+
+                                                x-model="replyBody"
+
+                                                @blur="touched = true"
+
+                                                @input="touched = true"
+
+                                                rows="6" 
+
+                                                class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm resize-none p-3" 
+
+                                                :class="{ 'border-red-500 focus:border-red-500 focus:ring-red-500': error }"
+
+                                                placeholder="Type your reply here..." required></textarea>
+
+                                            
+
+                                            {{-- Error Message --}}
+
+                                            <div x-show="error" x-text="error" class="text-red-500 text-xs mt-1 absolute bottom-[-20px] left-0"></div>
+
+                                        </div>
+
+                                        
+
+                                        <div class="mt-8 flex justify-between items-center">
+
+                                            <div class="text-xs text-gray-400">
+
+                                                <span x-show="!selected?.is_seen" class="flex items-center text-blue-500">
+
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+
+                                                    Will mark as seen
+
+                                                </span>
+
                                             </div>
 
-                                            <div class="flex gap-2 justify-end w-full">
-                                                <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="showModal = false">
-                                                    Close
+        
+
+                                            <div class="flex gap-3">
+
+                                                <button type="button" 
+
+                                                        class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-sm font-medium transition-colors" 
+
+                                                        @click="showModal = false">
+
+                                                    Discard
+
                                                 </button>
-                                                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
-                                                    Send Reply
+
+                                                <button type="submit" 
+
+                                                        :disabled="!isValid"
+
+                                                        :class="{ 'opacity-50 cursor-not-allowed': !isValid, 'hover:bg-blue-700': isValid }"
+
+                                                        class="px-6 py-2 bg-blue-600 text-white rounded-md text-sm font-medium shadow-sm transition-all flex items-center">
+
+                                                    Send Reply 
+
+                                                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+
                                                 </button>
+
                                             </div>
+
                                         </div>
+
                                     </form>
+
                                 </div>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
-        </div>
-    </div>
-</x-app-layout>
+
+        </x-app-layout>
+
+        
