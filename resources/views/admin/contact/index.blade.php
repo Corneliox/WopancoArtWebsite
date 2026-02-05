@@ -87,35 +87,45 @@
                  @click="showModal = false"
                  aria-hidden="true"></div>
 
-                        {{-- Modal Panel (Fixed Bottom Right with Corner Pop-up Animation) --}}
+                                    {{-- Modal Panel (Fixed Bottom Right with Corner Pop-up Animation) --}}
 
-                        <div
+                                    <div
 
-                            x-show="showModal"
+                                        x-show="showModal"
 
-                            x-transition:enter="transform transition ease-out duration-300"
+                                        x-transition:enter="transition ease-out duration-300"
 
-                            x-transition:enter-start="translate-y-24 translate-x-24 opacity-0 scale-95"
+                                        x-transition:enter-start="opacity-0"
 
-                            x-transition:enter-end="translate-y-0 translate-x-0 opacity-100 scale-100"
+                                        x-transition:enter-end="opacity-100"
 
-                            x-transition:leave="transform transition ease-in duration-200"
+                                        x-transition:leave="transition ease-in duration-200"
 
-                            x-transition:leave-start="translate-y-0 translate-x-0 opacity-100 scale-100"
+                                        x-transition:leave-start="opacity-100"
 
-                            x-transition:leave-end="translate-y-24 translate-x-24 opacity-0 scale-95"
+                                        x-transition:leave-end="opacity-0"
 
-                            class="fixed bottom-0 right-0 z-50 w-full sm:max-w-2xl sm:mr-4
+                                        x-transition:enter-start.style="transform: translate(96px, 96px) scale(0.95)"
 
-                                   bg-white dark:bg-gray-800
+                                        x-transition:enter-end.style="transform: translate(0, 0) scale(1)"
 
-                                   border border-gray-200 dark:border-gray-700
+                                        x-transition:leave-start.style="transform: translate(0, 0) scale(1)"
 
-                                   rounded-t-lg shadow-2xl
+                                        x-transition:leave-end.style="transform: translate(96px, 96px) scale(0.95)"
 
-                                   max-h-[85vh] flex flex-col pointer-events-auto"
+                                        class="fixed bottom-0 right-0 z-50 w-full sm:max-w-2xl sm:mr-4
 
-                        >
+                                               bg-white dark:bg-gray-800
+
+                                               border border-gray-200 dark:border-gray-700
+
+                                               rounded-t-lg shadow-2xl
+
+                                               max-h-[85vh] flex flex-col pointer-events-auto"
+
+                                    >
+
+                        
 
             
 
