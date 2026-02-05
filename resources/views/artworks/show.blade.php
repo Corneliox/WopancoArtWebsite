@@ -2,6 +2,12 @@
 
 @use('Illuminate\Support\Str')
 
+{{-- SEO Meta Tags --}}
+@section('title', $artwork->title . ' by ' . $artwork->user->name)
+@section('description', Str::limit(strip_tags($artwork->description), 150) . ' - Check out this artwork on WOPANCO.')
+@section('keywords', 'art, painting, ' . $artwork->category . ', ' . $artwork->user->name . ', wopanco')
+@section('og_image', $artwork->high_res_url)
+
 @push('scripts')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>

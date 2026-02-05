@@ -2,6 +2,9 @@
 
 @extends('layouts.main')
 
+@section('title', 'Home')
+@section('description', 'Welcome to WOPANCO - The Indonesia Woman Painter Community. Explore our gallery of paintings and crafts, meet talented artists, and join our upcoming events.')
+
 @section('content')
 
     {{-- =================================== --}}

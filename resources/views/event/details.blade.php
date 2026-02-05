@@ -1,5 +1,13 @@
 @extends('layouts.main')
 
+@use('Illuminate\Support\Str')
+
+{{-- SEO Meta Tags --}}
+@section('title', $event->title . ' - Event')
+@section('description', 'Join us for ' . $event->title . '. ' . Str::limit(strip_tags($event->description), 120))
+@section('keywords', 'event, wopanco, ' . $event->title . ', art exhibition, workshop')
+@section('og_image', $event->high_res_url)
+
 {{-- Add Swiper CSS just for this page --}}
 @section('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />

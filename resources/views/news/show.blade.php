@@ -1,5 +1,13 @@
 @extends('layouts.main')
 
+@use('Illuminate\Support\Str')
+
+{{-- SEO Meta Tags --}}
+@section('title', $news->title . ' - News')
+@section('description', Str::limit(strip_tags($news->content), 150))
+@section('keywords', 'news, update, wopanco, art news, ' . $news->title)
+@section('og_image', Storage::url($news->thumbnail))
+
 @section('styles')
 <style>
     /* Styling for the Word-like content */

@@ -3,10 +3,27 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>WOPANCO - Woman Painter Community</title>
         
+        {{-- SEO Meta Tags --}}
+        <title>@yield('title', 'Woman Painter Community') - WOPANCO</title>
+        <meta name="description" content="@yield('description', 'Join WOPANCO, the leading Woman Painter Community in Indonesia. Discover painting, sharing, and empowering through art.')">
+        <meta name="keywords" content="@yield('keywords', 'wopanco, wopancoart, woman painter community, art gallery, indonesia art, lukisan, craft, pameran seni, women artists')">
+        <meta name="author" content="WOPANCO Team">
+
+        {{-- Open Graph / Facebook --}}
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="@yield('title', 'Woman Painter Community') - WOPANCO">
+        <meta property="og:description" content="@yield('description', 'Join WOPANCO, the leading Woman Painter Community in Indonesia. Discover painting, sharing, and empowering through art.')">
+        <meta property="og:image" content="@yield('og_image', asset('images/wopanco2.png'))">
+
+        {{-- Twitter --}}
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ url()->current() }}">
+        <meta property="twitter:title" content="@yield('title', 'Woman Painter Community') - WOPANCO">
+        <meta property="twitter:description" content="@yield('description', 'Join WOPANCO, the leading Woman Painter Community in Indonesia. Discover painting, sharing, and empowering through art.')">
+        <meta property="twitter:image" content="@yield('og_image', asset('images/wopanco2.png'))">
+
         {{-- FAVICON --}}
         <link rel="icon" sizes="96x96" type="image/png" href="{{ asset('images/wopanco2.png') }}">
         

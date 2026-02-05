@@ -1,6 +1,14 @@
 @extends('layouts.main')
 
-@use('Illuminate\Support\Str') {{-- <-- ADD THIS AT THE TOP OF THE FILE --}}
+@use('Illuminate\Support\Str')
+
+{{-- SEO Meta Tags --}}
+@section('title', $artist->name . ' - Artist Profile')
+@section('description', 'Discover the works of ' . $artist->name . ' at WOPANCO. ' . Str::limit(strip_tags($profile->about ?? ''), 100))
+@section('keywords', $artist->name . ', artist, painter, wopanco, indonesia artist')
+@if($profile && $profile->profile_picture)
+    @section('og_image', Storage::url($profile->profile_picture))
+@endif
 
 @section('content')
 

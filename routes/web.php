@@ -44,6 +44,9 @@ use App\Http\Middleware\SuperAdminDeviceCheck;
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Sitemap
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
+
 // Events
 Route::get('/events', [EventController::class, 'index'])->name('event');
 Route::get('/events/{event:slug}', [EventController::class, 'show'])->name('event.details');
