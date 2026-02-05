@@ -69,98 +69,56 @@
         </div>
 
                 {{-- MODAL --}}
+        <div x-show="showModal" 
+             style="display: none;"
+             class="fixed inset-0 z-50 overflow-y-auto" 
+             aria-labelledby="modal-title" role="dialog" aria-modal="true">
+             
+            {{-- Wrapper --}}
+            <div class="flex items-end justify-end min-h-screen text-center">
+                
+                {{-- Backdrop (10% Opacity) --}}
+                <div x-show="showModal"
+                     x-transition:enter="ease-out duration-300"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="ease-in duration-200"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     class="fixed inset-0 bg-gray-500 bg-opacity-10 transition-opacity" 
+                     @click="showModal = false"
+                     aria-hidden="true"></div>
 
-                <div x-show="showModal" 
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                     style="display: none;"
+                {{-- Modal Panel (Gmail Style - Bottom Right Docked) --}}
+                <div x-show="showModal"
+                     x-transition:enter="ease-out duration-300 transform"
+                     x-transition:enter-start="opacity-0 translate-y-10 scale-95"
+                     x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave="ease-in duration-200 transform"
+                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave-end="opacity-0 translate-y-10 scale-95"
+                     class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-t-lg text-left overflow-hidden shadow-2xl transform transition-all mr-4 sm:max-w-2xl w-full border border-gray-200 dark:border-gray-700">
+                    
+                    {{-- Header --}}
+                    <div class="bg-gray-900 text-white px-4 py-3 flex justify-between items-center rounded-t-lg cursor-pointer" @click="showModal = false">
+                        <h3 class="text-sm font-bold tracking-wide">
+                            REPLY MESSAGE
+                        </h3>
+                        <div class="flex items-center space-x-2">
+                             {{-- Minimize/Close --}}
+                            <button @click.stop="showModal = false" class="text-gray-400 hover:text-white focus:outline-none">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
 
-                     class="fixed inset-0 z-50 overflow-y-auto" 
-
-                     aria-labelledby="modal-title" role="dialog" aria-modal="true">
-
-                     
-
-                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-
-                        {{-- Backdrop --}}
-
-                        <div x-show="showModal"
-
-                             x-transition:enter="ease-out duration-300"
-
-                             x-transition:enter-start="opacity-0"
-
-                             x-transition:enter-end="opacity-100"
-
-                             x-transition:leave="ease-in duration-200"
-
-                             x-transition:leave-start="opacity-100"
-
-                             x-transition:leave-end="opacity-0"
-
-                             class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
-
-                             @click="showModal = false"
-
-                             aria-hidden="true"></div>
-
-        
-
-                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-        
-
-                        {{-- Modal Panel (Gmail Style) --}}
-
-                        <div x-show="showModal"
-
-                             x-transition:enter="ease-out duration-300"
-
-                             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-
-                             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-
-                             x-transition:leave="ease-in duration-200"
-
-                             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-
-                             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-
-                             class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-t-lg sm:rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl w-full">
-
-                            
-
-                            {{-- Header --}}
-
-                            <div class="bg-gray-100 dark:bg-gray-700 px-4 py-3 flex justify-between items-center border-b border-gray-200 dark:border-gray-600">
-
-                                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-
-                                    Reply to Message
-
-                                </h3>
-
-                                <button @click="showModal = false" class="text-gray-400 hover:text-gray-500 focus:outline-none">
-
-                                    <span class="sr-only">Close</span>
-
-                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-
-                                    </svg>
-
-                                </button>
-
-                            </div>
-
-        
-
-                            <div class="bg-white dark:bg-gray-800 px-6 py-4">
-
-                                
-
-                                {{-- Meta Info --}}
+                    <div class="bg-white dark:bg-gray-800 px-6 py-4" style="max-height: 80vh; overflow-y: auto;">
+                        
+                        {{-- Meta Info --}}
 
                                 <div class="mb-4 text-sm text-gray-600 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700 pb-4">
 
