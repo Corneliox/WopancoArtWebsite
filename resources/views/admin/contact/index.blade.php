@@ -71,56 +71,51 @@
                 {{-- MODAL --}}
         <div x-show="showModal" 
              style="display: none;"
-             class="fixed inset-0 z-50 overflow-y-auto" 
+             class="fixed inset-0 z-50 pointer-events-none" 
              aria-labelledby="modal-title" role="dialog" aria-modal="true">
              
-            {{-- Wrapper --}}
-            <div class="flex items-end justify-end min-h-screen text-center">
+            {{-- Backdrop (Custom Opacity 0.35) --}}
+            <div x-show="showModal"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 class="absolute inset-0 bg-gray-500 transition-opacity pointer-events-auto"
+                 style="--tw-bg-opacity: 0.35;" 
+                 @click="showModal = false"
+                 aria-hidden="true"></div>
+
+            {{-- Modal Panel (Fixed Bottom Right) --}}
+            <div x-show="showModal"
+                 x-transition:enter="transform transition ease-out duration-300"
+                 x-transition:enter-start="translate-y-full opacity-0"
+                 x-transition:enter-end="translate-y-0 opacity-100"
+                 x-transition:leave="transform transition ease-in duration-200"
+                 x-transition:leave-start="translate-y-0 opacity-100"
+                 x-transition:leave-end="translate-y-full opacity-0"
+                 class="fixed bottom-0 right-4 bg-white dark:bg-gray-800 rounded-t-lg shadow-2xl w-full sm:max-w-2xl border border-gray-200 dark:border-gray-700 h-auto max-h-[85vh] flex flex-col pointer-events-auto z-50">
                 
-                {{-- Backdrop (Custom Opacity 0.35) --}}
-                <div x-show="showModal"
-                     x-transition:enter="ease-out duration-300"
-                     x-transition:enter-start="opacity-0"
-                     x-transition:enter-end="opacity-100"
-                     x-transition:leave="ease-in duration-200"
-                     x-transition:leave-start="opacity-100"
-                     x-transition:leave-end="opacity-0"
-                     class="fixed inset-0 bg-gray-500 transition-opacity"
-                     style="--tw-bg-opacity: 0.35;" 
-                     @click="showModal = false"
-                     aria-hidden="true"></div>
-
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-                {{-- Modal Panel (Gmail Style - Slide Up Animation) --}}
-                <div x-show="showModal"
-                     x-transition:enter="transform transition ease-out duration-300"
-                     x-transition:enter-start="translate-y-full opacity-0"
-                     x-transition:enter-end="translate-y-0 opacity-100"
-                     x-transition:leave="transform transition ease-in duration-200"
-                     x-transition:leave-start="translate-y-0 opacity-100"
-                     x-transition:leave-end="translate-y-full opacity-0"
-                     class="relative inline-flex flex-col align-bottom bg-white dark:bg-gray-800 rounded-t-lg text-left shadow-2xl mr-4 sm:max-w-2xl w-full border border-gray-200 dark:border-gray-700 h-auto max-h-[85vh]">
-                    
-                    {{-- Header --}}
-                    <div class="bg-gray-900 text-white px-4 py-3 flex justify-between items-center rounded-t-lg cursor-pointer flex-shrink-0" @click="showModal = false">
-                        <h3 class="text-sm font-bold tracking-wide">
-                            REPLY MESSAGE
-                        </h3>
-                        <div class="flex items-center space-x-2">
-                             {{-- Minimize/Close --}}
-                            <button @click.stop="showModal = false" class="text-gray-400 hover:text-white focus:outline-none">
-                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
+                {{-- Header --}}
+                <div class="bg-gray-900 text-white px-4 py-3 flex justify-between items-center rounded-t-lg cursor-pointer flex-shrink-0" @click="showModal = false">
+                    <h3 class="text-sm font-bold tracking-wide">
+                        REPLY MESSAGE
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                         {{-- Minimize/Close --}}
+                        <button @click.stop="showModal = false" class="text-gray-400 hover:text-white focus:outline-none">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
+                </div>
 
-                    {{-- Content Body (Scrollable) --}}
-                    <div class="bg-white dark:bg-gray-800 px-6 py-4 overflow-y-auto">
-                        
-                        {{-- Meta Info --}}
+                {{-- Content Body (Scrollable) --}}
+                <div class="bg-white dark:bg-gray-800 px-6 py-4 overflow-y-auto">
+                    
+                    {{-- Meta Info --}}
 
                                 <div class="mb-4 text-sm text-gray-600 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700 pb-4">
 
