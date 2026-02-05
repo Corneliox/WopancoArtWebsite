@@ -106,343 +106,679 @@
 
                 
 
-                            {{-- Modal Panel (Centered with Scale Animation) --}}
-
-                            <div
-
-                                x-show="showModal"
-
-                                x-transition:enter="transition ease-out duration-300 transform"
-
-                                x-transition:enter-start="opacity-0 scale-95"
-
-                                x-transition:enter-end="opacity-100 scale-100"
-
-                                x-transition:leave="transition ease-in duration-200 transform"
-
-                                x-transition:leave-start="opacity-100 scale-100"
-
-                                x-transition:leave-end="opacity-0 scale-95"
-
-                                class="relative bg-white dark:bg-gray-800
-
-                                       border border-gray-200 dark:border-gray-700
-
-                                       rounded-xl shadow-2xl
-
-                                       w-full max-w-2xl
-
-                                       max-h-[90vh] flex flex-col z-50"
-
-                            >
+                                        {{-- Modal Panel (Centered with Scale Animation) --}}
 
                 
 
-                                <!-- HEADER -->
-
-                                <div
-
-                                    class="bg-gray-900 text-white px-4 py-3
-
-                                           flex justify-between items-center
-
-                                           rounded-t-xl cursor-pointer flex-shrink-0"
-
-                                    @click="showModal = false"
-
-                                >
-
-                                    <h3 class="text-sm font-bold tracking-wide">
-
-                                        REPLY MESSAGE
-
-                                    </h3>
+                                        <div
 
                 
 
-                                    <button
-
-                                        @click.stop="showModal = false"
-
-                                        class="text-gray-400 hover:text-white focus:outline-none"
-
-                                    >
-
-                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-
-                                                  d="M6 18L18 6M6 6l12 12" />
-
-                                        </svg>
-
-                                    </button>
-
-                                </div>
+                                            x-show="showModal"
 
                 
 
-                                <!-- CONTENT -->
-
-                                <div class="px-6 py-4 overflow-y-auto flex-1">
+                                            x-transition:enter="transition ease-out duration-300 transform"
 
                 
 
-            
+                                            x-transition:enter-start="opacity-0 scale-95"
 
-                                <!-- ORIGINAL MESSAGE -->
+                
 
-                                <div
+                                            x-transition:enter-end="opacity-100 scale-100"
 
-                                    class="mb-4 text-sm text-gray-600 dark:text-gray-400
+                
 
-                                           border-b border-gray-100 dark:border-gray-700 pb-4"
+                                            x-transition:leave="transition ease-in duration-200 transform"
 
-                                >
+                
 
-                                    <div class="flex justify-between mb-1">
+                                            x-transition:leave-start="opacity-100 scale-100"
 
-                                        <span>
+                
 
-                                            <strong>From:</strong>
+                                            x-transition:leave-end="opacity-0 scale-95"
 
-                                            <span x-text="selected?.name"></span>
+                
 
-                                            &lt;<span x-text="selected?.email"></span>&gt;
+                                            class="relative bg-white dark:bg-gray-800
 
-                                        </span>
+                
 
-            
+                                                   border border-gray-200 dark:border-gray-700
 
-                                        <span
+                
 
-                                            class="text-xs text-gray-500"
+                                                   rounded-xl shadow-2xl
 
-                                            x-text="new Date(selected?.created_at).toLocaleString()"
+                
 
-                                        ></span>
+                                                   w-full max-w-5xl
 
-                                    </div>
+                
 
-            
+                                                   max-h-[90vh] flex flex-col z-50"
 
-                                    <div class="mb-2">
+                
 
-                                        <strong>Subject:</strong>
+                                        >
 
-                                        <span x-text="selected?.subject"></span>
+                
 
-                                    </div>
+                            
 
-            
+                
 
-                                    <div
+                                            <!-- HEADER -->
 
-                                        class="bg-gray-50 dark:bg-gray-900 p-3 rounded
+                
 
-                                               text-gray-800 dark:text-gray-200
+                                            <div
 
-                                               whitespace-pre-wrap italic
+                
 
-                                               border-l-4 border-gray-300 dark:border-gray-600"
+                                                class="bg-gray-900 text-white px-4 py-3
 
-                                        x-text="selected?.feedback"
+                
 
-                                    ></div>
+                                                       flex justify-between items-center
 
-                                </div>
+                
 
-            
+                                                       rounded-t-xl cursor-pointer flex-shrink-0"
 
-                                <!-- REPLY FORM -->
+                
 
-                                <div
+                                                @click="showModal = false"
 
-                                    x-data="{
-
-                                        replyBody: '',
-
-                                        touched: false,
-
-                                        get error() {
-
-                                            if (!this.touched) return null
-
-                                            if (this.replyBody.trim().length === 0) return 'Message cannot be empty.'
-
-                                            if (this.replyBody.trim().length < 10) return 'Message is too short (min 10 chars).'
-
-                                            return null
-
-                                        },
-
-                                        get isValid() {
-
-                                            return this.replyBody.trim().length >= 10
-
-                                        }
-
-                                    }"
-
-                                >
-
-                                    <form
-
-                                        :action="`/admin/contact-submissions/${selected?.id}/reply`"
-
-                                        method="POST"
-
-                                    >
-
-                                        @csrf
-
-            
-
-                                        <!-- TEXTAREA -->
-
-                                        <div class="relative">
-
-                                            <textarea
-
-                                                name="reply_message"
-
-                                                x-model="replyBody"
-
-                                                @blur="touched = true"
-
-                                                @input="touched = true"
-
-                                                rows="6"
-
-                                                placeholder="Type your reply here..."
-
-                                                required
-
-                                                class="w-full p-3 resize-none rounded-md shadow-sm
-
-                                                       border border-gray-300 dark:border-gray-700
-
-                                                       dark:bg-gray-900 dark:text-gray-300
-
-                                                       focus:ring-indigo-500 focus:border-indigo-500"
-
-                                                :class="{
-
-                                                    'border-red-500 focus:border-red-500 focus:ring-red-500': error
-
-                                                }"
-
-                                            ></textarea>
-
-            
-
-                                            <p
-
-                                                x-show="error"
-
-                                                x-text="error"
-
-                                                class="absolute -bottom-5 left-0 text-xs text-red-500"
-
-                                            ></p>
-
-                                        </div>
-
-            
-
-                                        <!-- ACTIONS -->
-
-                                        <div class="mt-8 flex justify-between items-center">
-
-            
-
-                                            <span
-
-                                                x-show="!selected?.is_seen"
-
-                                                class="flex items-center text-xs text-blue-500"
+                
 
                                             >
 
-                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                
 
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                <h3 class="text-sm font-bold tracking-wide">
 
-                                                          d="M5 13l4 4L19 7" />
+                
 
-                                                </svg>
+                                                    REPLY MESSAGE
 
-                                                Will mark as seen
+                
 
-                                            </span>
+                                                </h3>
 
-            
+                
 
-                                            <div class="flex gap-3">
+                            
 
-                                                <button
-
-                                                    type="button"
-
-                                                    @click="showModal = false"
-
-                                                    class="px-4 py-2 rounded-md text-sm font-medium
-
-                                                           bg-gray-100 hover:bg-gray-200 text-gray-700"
-
-                                                >
-
-                                                    Discard
-
-                                                </button>
-
-            
+                
 
                                                 <button
 
-                                                    type="submit"
+                
 
-                                                    :disabled="!isValid"
+                                                    @click.stop="showModal = false"
 
-                                                    class="px-6 py-2 rounded-md text-sm font-medium
+                
 
-                                                           bg-blue-600 text-white shadow-sm
+                                                    class="text-gray-400 hover:text-white focus:outline-none"
 
-                                                           transition-all flex items-center"
-
-                                                    :class="{
-
-                                                        'opacity-50 cursor-not-allowed': !isValid,
-
-                                                        'hover:bg-blue-700': isValid
-
-                                                    }"
+                
 
                                                 >
 
-                                                    Send Reply
+                
 
-                                                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                
 
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 
-                                                              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                
+
+                                                              d="M6 18L18 6M6 6l12 12" />
+
+                
 
                                                     </svg>
 
+                
+
                                                 </button>
+
+                
 
                                             </div>
 
-            
+                
+
+                            
+
+                
+
+                                            <!-- CONTENT (Two Columns) -->
+
+                
+
+                                            <div class="px-6 py-4 overflow-y-auto flex-1 flex flex-col md:flex-row gap-6">
+
+                
+
+                            
+
+                
+
+                                                <!-- LEFT COLUMN: ORIGINAL MESSAGE -->
+
+                
+
+                                                <div class="md:w-1/2 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700 pr-0 md:pr-6 pb-6 md:pb-0">
+
+                
+
+                                                    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+
+                
+
+                                                        <div class="mb-4 pb-4 border-b border-gray-50 dark:border-gray-900">
+
+                
+
+                                                            <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-2 uppercase text-xs tracking-wider">Sender Details</h4>
+
+                
+
+                                                            <p><strong>From:</strong> <span x-text="selected?.name"></span></p>
+
+                
+
+                                                            <p><strong>Email:</strong> <span x-text="selected?.email"></span></p>
+
+                
+
+                                                            <p><strong>Date:</strong> <span x-text="new Date(selected?.created_at).toLocaleString()"></span></p>
+
+                
+
+                                                        </div>
+
+                
+
+                                                        
+
+                
+
+                                                        <div class="mb-2">
+
+                
+
+                                                            <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-1 uppercase text-xs tracking-wider">Subject</h4>
+
+                
+
+                                                            <p class="text-base text-gray-800 dark:text-gray-200" x-text="selected?.subject"></p>
+
+                
+
+                                                        </div>
+
+                
+
+                            
+
+                
+
+                                                        <div class="mt-4">
+
+                
+
+                                                            <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-2 uppercase text-xs tracking-wider">Original Message</h4>
+
+                
+
+                                                            <div
+
+                
+
+                                                                class="bg-gray-50 dark:bg-gray-900 p-4 rounded
+
+                
+
+                                                                       text-gray-800 dark:text-gray-200
+
+                
+
+                                                                       whitespace-pre-wrap italic
+
+                
+
+                                                                       border-l-4 border-gray-300 dark:border-gray-600 shadow-inner"
+
+                
+
+                                                                x-text="selected?.feedback"
+
+                
+
+                                                            ></div>
+
+                
+
+                                                        </div>
+
+                
+
+                                                    </div>
+
+                
+
+                                                </div>
+
+                
+
+                            
+
+                
+
+                                                <!-- RIGHT COLUMN: REPLY FORM -->
+
+                
+
+                                                <div class="md:w-1/2">
+
+                
+
+                                                    <div
+
+                
+
+                                                        x-data="{
+
+                
+
+                                                            replyBody: '',
+
+                
+
+                                                            touched: false,
+
+                
+
+                                                            get error() {
+
+                
+
+                                                                if (!this.touched) return null
+
+                
+
+                                                                if (this.replyBody.trim().length === 0) return 'Message cannot be empty.'
+
+                
+
+                                                                if (this.replyBody.trim().length < 10) return 'Message is too short (min 10 chars).'
+
+                
+
+                                                                return null
+
+                
+
+                                                            },
+
+                
+
+                                                            get isValid() {
+
+                
+
+                                                                return this.replyBody.trim().length >= 10
+
+                
+
+                                                            }
+
+                
+
+                                                        }"
+
+                
+
+                                                    >
+
+                
+
+                                                        <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-4 uppercase text-xs tracking-wider">Your Reply</h4>
+
+                
+
+                                                        <form
+
+                
+
+                                                            :action="`/admin/contact-submissions/${selected?.id}/reply`"
+
+                
+
+                                                            method="POST"
+
+                
+
+                                                        >
+
+                
+
+                                                            @csrf
+
+                
+
+                            
+
+                
+
+                                                            <!-- TEXTAREA -->
+
+                
+
+                                                            <div class="relative">
+
+                
+
+                                                                <textarea
+
+                
+
+                                                                    name="reply_message"
+
+                
+
+                                                                    x-model="replyBody"
+
+                
+
+                                                                    @blur="touched = true"
+
+                
+
+                                                                    @input="touched = true"
+
+                
+
+                                                                    rows="10"
+
+                
+
+                                                                    placeholder="Type your professional response here..."
+
+                
+
+                                                                    required
+
+                
+
+                                                                    class="w-full p-3 resize-none rounded-md shadow-sm
+
+                
+
+                                                                           border border-gray-300 dark:border-gray-700
+
+                
+
+                                                                           dark:bg-gray-900 dark:text-gray-300
+
+                
+
+                                                                           focus:ring-indigo-500 focus:border-indigo-500"
+
+                
+
+                                                                    :class="{
+
+                
+
+                                                                        'border-red-500 focus:border-red-500 focus:ring-red-500': error
+
+                
+
+                                                                    }"
+
+                
+
+                                                                ></textarea>
+
+                
+
+                            
+
+                
+
+                                                                <p
+
+                
+
+                                                                    x-show="error"
+
+                
+
+                                                                    x-text="error"
+
+                
+
+                                                                    class="absolute -bottom-5 left-0 text-xs text-red-500"
+
+                
+
+                                                                ></p>
+
+                
+
+                                                            </div>
+
+                
+
+                            
+
+                
+
+                                                            <!-- ACTIONS -->
+
+                
+
+                                                            <div class="mt-10 flex justify-between items-center">
+
+                
+
+                            
+
+                
+
+                                                                <span
+
+                
+
+                                                                    x-show="!selected?.is_seen"
+
+                
+
+                                                                    class="flex items-center text-xs text-blue-500"
+
+                
+
+                                                                >
+
+                
+
+                                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                
+
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+
+                
+
+                                                                              d="M5 13l4 4L19 7" />
+
+                
+
+                                                                    </svg>
+
+                
+
+                                                                    Will mark as seen
+
+                
+
+                                                                </span>
+
+                
+
+                            
+
+                
+
+                                                                <div class="flex gap-3">
+
+                
+
+                                                                    <button
+
+                
+
+                                                                        type="button"
+
+                
+
+                                                                        @click="showModal = false"
+
+                
+
+                                                                        class="px-4 py-2 rounded-md text-sm font-medium
+
+                
+
+                                                                               bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+
+                
+
+                                                                    >
+
+                
+
+                                                                        Discard
+
+                
+
+                                                                    </button>
+
+                
+
+                            
+
+                
+
+                                                                    <button
+
+                
+
+                                                                        type="submit"
+
+                
+
+                                                                        :disabled="!isValid"
+
+                
+
+                                                                        class="px-6 py-2 rounded-md text-sm font-medium
+
+                
+
+                                                                               bg-blue-600 text-white shadow-sm
+
+                
+
+                                                                               transition-all flex items-center"
+
+                
+
+                                                                        :class="{
+
+                
+
+                                                                            'opacity-50 cursor-not-allowed': !isValid,
+
+                
+
+                                                                            'hover:bg-blue-700': isValid
+
+                
+
+                                                                        }"
+
+                
+
+                                                                    >
+
+                
+
+                                                                        Send Reply
+
+                
+
+                                                                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                
+
+                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+
+                
+
+                                                                                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+
+                
+
+                                                                        </svg>
+
+                
+
+                                                                    </button>
+
+                
+
+                                                                </div>
+
+                
+
+                            
+
+                
+
+                                                            </div>
+
+                
+
+                                                        </form>
+
+                
+
+                                                    </div>
+
+                
+
+                                                </div>
+
+                
+
+                                            </div>
+
+                
 
                                         </div>
 
-                                    </form>
+                
 
-                                </div>
-
-                            </div>
+                            
 
                         </div>
 
