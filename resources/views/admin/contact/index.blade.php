@@ -77,7 +77,7 @@
             {{-- Wrapper --}}
             <div class="flex items-end justify-end min-h-screen text-center">
                 
-                {{-- Backdrop (10% Opacity) --}}
+                {{-- Backdrop (Custom Opacity 0.35) --}}
                 <div x-show="showModal"
                      x-transition:enter="ease-out duration-300"
                      x-transition:enter-start="opacity-0"
@@ -85,21 +85,22 @@
                      x-transition:leave="ease-in duration-200"
                      x-transition:leave-start="opacity-100"
                      x-transition:leave-end="opacity-0"
-                     class="fixed inset-0 bg-gray-500 bg-opacity-10 transition-opacity" 
+                     class="fixed inset-0 bg-gray-500 transition-opacity"
+                     style="--tw-bg-opacity: 0.35;" 
                      @click="showModal = false"
                      aria-hidden="true"></div>
 
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                {{-- Modal Panel (Gmail Style - Bottom Right Docked) --}}
+                {{-- Modal Panel (Gmail Style - Slide Up Animation) --}}
                 <div x-show="showModal"
-                     x-transition:enter="ease-out duration-300 transform"
-                     x-transition:enter-start="opacity-0 translate-y-10 scale-95"
-                     x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                     x-transition:leave="ease-in duration-200 transform"
-                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                     x-transition:leave-end="opacity-0 translate-y-10 scale-95"
-                     class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-t-lg text-left overflow-hidden shadow-2xl transform transition-all mr-4 sm:max-w-2xl w-full border border-gray-200 dark:border-gray-700">
+                     x-transition:enter="transform transition ease-out duration-300"
+                     x-transition:enter-start="translate-y-full opacity-0"
+                     x-transition:enter-end="translate-y-0 opacity-100"
+                     x-transition:leave="transform transition ease-in duration-200"
+                     x-transition:leave-start="translate-y-0 opacity-100"
+                     x-transition:leave-end="translate-y-full opacity-0"
+                     class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-t-lg text-left overflow-hidden shadow-2xl mr-4 sm:max-w-2xl w-full border border-gray-200 dark:border-gray-700 h-auto">
                     
                     {{-- Header --}}
                     <div class="bg-gray-900 text-white px-4 py-3 flex justify-between items-center rounded-t-lg cursor-pointer" @click="showModal = false">
