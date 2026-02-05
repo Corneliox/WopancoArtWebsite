@@ -87,91 +87,203 @@
                  @click="showModal = false"
                  aria-hidden="true"></div>
 
-            {{-- Modal Panel (Fixed Bottom Right) --}}
-            <div x-show="showModal"
-                 x-transition:enter="transform transition ease-out duration-300"
-                 x-transition:enter-start="translate-y-full opacity-0"
-                 x-transition:enter-end="translate-y-0 opacity-100"
-                 x-transition:leave="transform transition ease-in duration-200"
-                 x-transition:leave-start="translate-y-0 opacity-100"
-                 x-transition:leave-end="translate-y-full opacity-0"
-                 class="fixed bottom-0 right-0 bg-white dark:bg-gray-800 rounded-t-lg shadow-2xl w-full sm:max-w-2xl border border-gray-200 dark:border-gray-700 h-auto max-h-[85vh] flex flex-col pointer-events-auto z-50 sm:mr-4">
-                
-                {{-- Header --}}
-                <div class="bg-gray-900 text-white px-4 py-3 flex justify-between items-center rounded-t-lg cursor-pointer flex-shrink-0" @click="showModal = false">
-                    <h3 class="text-sm font-bold tracking-wide">
-                        REPLY MESSAGE
-                    </h3>
-                    <div class="flex items-center space-x-2">
-                         {{-- Minimize/Close --}}
-                        <button @click.stop="showModal = false" class="text-gray-400 hover:text-white focus:outline-none">
-                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+                        {{-- Modal Panel (Fixed Bottom Right with Corner Pop-up Animation) --}}
 
-                {{-- Content Body (Scrollable) --}}
-                <div class="bg-white dark:bg-gray-800 px-6 py-4 overflow-y-auto">
-                    
-                    {{-- Meta Info --}}
+                        <div
 
-                                <div class="mb-4 text-sm text-gray-600 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700 pb-4">
+                            x-show="showModal"
+
+                            x-transition:enter="transform transition ease-out duration-300"
+
+                            x-transition:enter-start="translate-y-24 translate-x-24 opacity-0 scale-95"
+
+                            x-transition:enter-end="translate-y-0 translate-x-0 opacity-100 scale-100"
+
+                            x-transition:leave="transform transition ease-in duration-200"
+
+                            x-transition:leave-start="translate-y-0 translate-x-0 opacity-100 scale-100"
+
+                            x-transition:leave-end="translate-y-24 translate-x-24 opacity-0 scale-95"
+
+                            class="fixed bottom-0 right-0 z-50 w-full sm:max-w-2xl sm:mr-4
+
+                                   bg-white dark:bg-gray-800
+
+                                   border border-gray-200 dark:border-gray-700
+
+                                   rounded-t-lg shadow-2xl
+
+                                   max-h-[85vh] flex flex-col pointer-events-auto"
+
+                        >
+
+            
+
+                            <!-- HEADER -->
+
+                            <div
+
+                                class="bg-gray-900 text-white px-4 py-3
+
+                                       flex justify-between items-center
+
+                                       rounded-t-lg cursor-pointer flex-shrink-0"
+
+                                @click="showModal = false"
+
+                            >
+
+                                <h3 class="text-sm font-bold tracking-wide">
+
+                                    REPLY MESSAGE
+
+                                </h3>
+
+            
+
+                                <button
+
+                                    @click.stop="showModal = false"
+
+                                    class="text-gray-400 hover:text-white focus:outline-none"
+
+                                >
+
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+
+                                              d="M6 18L18 6M6 6l12 12" />
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+            
+
+                            <!-- CONTENT -->
+
+                            <div class="px-6 py-4 overflow-y-auto">
+
+            
+
+                                <!-- ORIGINAL MESSAGE -->
+
+                                <div
+
+                                    class="mb-4 text-sm text-gray-600 dark:text-gray-400
+
+                                           border-b border-gray-100 dark:border-gray-700 pb-4"
+
+                                >
 
                                     <div class="flex justify-between mb-1">
 
-                                        <span><strong>From:</strong> <span x-text="selected?.name"></span> &lt;<span x-text="selected?.email"></span>&gt;</span>
+                                        <span>
 
-                                        <span class="text-xs text-gray-500" x-text="new Date(selected?.created_at).toLocaleString()"></span>
+                                            <strong>From:</strong>
+
+                                            <span x-text="selected?.name"></span>
+
+                                            &lt;<span x-text="selected?.email"></span>&gt;
+
+                                        </span>
+
+            
+
+                                        <span
+
+                                            class="text-xs text-gray-500"
+
+                                            x-text="new Date(selected?.created_at).toLocaleString()"
+
+                                        ></span>
 
                                     </div>
 
-                                    <div class="mb-2"><strong>Subject:</strong> <span x-text="selected?.subject"></span></div>
+            
 
-                                    <div class="bg-gray-50 dark:bg-gray-900 p-3 rounded text-gray-800 dark:text-gray-200 whitespace-pre-wrap italic border-l-4 border-gray-300 dark:border-gray-600" x-text="selected?.feedback"></div>
+                                    <div class="mb-2">
+
+                                        <strong>Subject:</strong>
+
+                                        <span x-text="selected?.subject"></span>
+
+                                    </div>
+
+            
+
+                                    <div
+
+                                        class="bg-gray-50 dark:bg-gray-900 p-3 rounded
+
+                                               text-gray-800 dark:text-gray-200
+
+                                               whitespace-pre-wrap italic
+
+                                               border-l-4 border-gray-300 dark:border-gray-600"
+
+                                        x-text="selected?.feedback"
+
+                                    ></div>
 
                                 </div>
 
-        
+            
 
-                                {{-- REPLY FORM --}}
+                                <!-- REPLY FORM -->
 
-                                <div x-data="{ 
+                                <div
 
-                                        replyBody: '', 
+                                    x-data="{
+
+                                        replyBody: '',
 
                                         touched: false,
 
                                         get error() {
 
-                                            if (this.touched && this.replyBody.trim().length === 0) return 'Message cannot be empty.';
+                                            if (!this.touched) return null
 
-                                            if (this.touched && this.replyBody.trim().length < 10) return 'Message is too short (min 10 chars).';
+                                            if (this.replyBody.trim().length === 0) return 'Message cannot be empty.'
 
-                                            return null;
+                                            if (this.replyBody.trim().length < 10) return 'Message is too short (min 10 chars).'
+
+                                            return null
 
                                         },
 
                                         get isValid() {
 
-                                            return this.replyBody.trim().length >= 10;
+                                            return this.replyBody.trim().length >= 10
 
                                         }
 
-                                     }">
+                                    }"
 
-                                    <form :action="`/admin/contact-submissions/${selected?.id}/reply`" method="POST">
+                                >
+
+                                    <form
+
+                                        :action="`/admin/contact-submissions/${selected?.id}/reply`"
+
+                                        method="POST"
+
+                                    >
 
                                         @csrf
 
-                                        
+            
+
+                                        <!-- TEXTAREA -->
 
                                         <div class="relative">
 
-                                            <textarea 
+                                            <textarea
 
-                                                name="reply_message" 
+                                                name="reply_message"
 
                                                 x-model="replyBody"
 
@@ -179,67 +291,129 @@
 
                                                 @input="touched = true"
 
-                                                rows="6" 
+                                                rows="6"
 
-                                                class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm resize-none p-3" 
+                                                placeholder="Type your reply here..."
 
-                                                :class="{ 'border-red-500 focus:border-red-500 focus:ring-red-500': error }"
+                                                required
 
-                                                placeholder="Type your reply here..." required></textarea>
+                                                class="w-full p-3 resize-none rounded-md shadow-sm
 
-                                            
+                                                       border border-gray-300 dark:border-gray-700
 
-                                            {{-- Error Message --}}
+                                                       dark:bg-gray-900 dark:text-gray-300
 
-                                            <div x-show="error" x-text="error" class="text-red-500 text-xs mt-1 absolute bottom-[-20px] left-0"></div>
+                                                       focus:ring-indigo-500 focus:border-indigo-500"
+
+                                                :class="{
+
+                                                    'border-red-500 focus:border-red-500 focus:ring-red-500': error
+
+                                                }"
+
+                                            ></textarea>
+
+            
+
+                                            <p
+
+                                                x-show="error"
+
+                                                x-text="error"
+
+                                                class="absolute -bottom-5 left-0 text-xs text-red-500"
+
+                                            ></p>
 
                                         </div>
 
-                                        
+            
+
+                                        <!-- ACTIONS -->
 
                                         <div class="mt-8 flex justify-between items-center">
 
-                                            <div class="text-xs text-gray-400">
+            
 
-                                                <span x-show="!selected?.is_seen" class="flex items-center text-blue-500">
+                                            <span
 
-                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                x-show="!selected?.is_seen"
 
-                                                    Will mark as seen
+                                                class="flex items-center text-xs text-blue-500"
 
-                                                </span>
+                                            >
 
-                                            </div>
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 
-        
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+
+                                                          d="M5 13l4 4L19 7" />
+
+                                                </svg>
+
+                                                Will mark as seen
+
+                                            </span>
+
+            
 
                                             <div class="flex gap-3">
 
-                                                <button type="button" 
+                                                <button
 
-                                                        class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-sm font-medium transition-colors" 
+                                                    type="button"
 
-                                                        @click="showModal = false">
+                                                    @click="showModal = false"
+
+                                                    class="px-4 py-2 rounded-md text-sm font-medium
+
+                                                           bg-gray-100 hover:bg-gray-200 text-gray-700"
+
+                                                >
 
                                                     Discard
 
                                                 </button>
 
-                                                <button type="submit" 
+            
 
-                                                        :disabled="!isValid"
+                                                <button
 
-                                                        :class="{ 'opacity-50 cursor-not-allowed': !isValid, 'hover:bg-blue-700': isValid }"
+                                                    type="submit"
 
-                                                        class="px-6 py-2 bg-blue-600 text-white rounded-md text-sm font-medium shadow-sm transition-all flex items-center">
+                                                    :disabled="!isValid"
 
-                                                    Send Reply 
+                                                    class="px-6 py-2 rounded-md text-sm font-medium
 
-                                                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                                                           bg-blue-600 text-white shadow-sm
+
+                                                           transition-all flex items-center"
+
+                                                    :class="{
+
+                                                        'opacity-50 cursor-not-allowed': !isValid,
+
+                                                        'hover:bg-blue-700': isValid
+
+                                                    }"
+
+                                                >
+
+                                                    Send Reply
+
+                                                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+
+                                                              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+
+                                                    </svg>
 
                                                 </button>
 
                                             </div>
+
+            
 
                                         </div>
 
@@ -250,6 +424,8 @@
                             </div>
 
                         </div>
+
+            
 
                     </div>
 
