@@ -100,10 +100,10 @@
                      x-transition:leave="transform transition ease-in duration-200"
                      x-transition:leave-start="translate-y-0 opacity-100"
                      x-transition:leave-end="translate-y-full opacity-0"
-                     class="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-t-lg text-left overflow-hidden shadow-2xl mr-4 sm:max-w-2xl w-full border border-gray-200 dark:border-gray-700 h-auto">
+                     class="relative inline-flex flex-col align-bottom bg-white dark:bg-gray-800 rounded-t-lg text-left shadow-2xl mr-4 sm:max-w-2xl w-full border border-gray-200 dark:border-gray-700 h-auto max-h-[85vh]">
                     
                     {{-- Header --}}
-                    <div class="bg-gray-900 text-white px-4 py-3 flex justify-between items-center rounded-t-lg cursor-pointer" @click="showModal = false">
+                    <div class="bg-gray-900 text-white px-4 py-3 flex justify-between items-center rounded-t-lg cursor-pointer flex-shrink-0" @click="showModal = false">
                         <h3 class="text-sm font-bold tracking-wide">
                             REPLY MESSAGE
                         </h3>
@@ -117,7 +117,8 @@
                         </div>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-800 px-6 py-4" style="max-height: 80vh; overflow-y: auto;">
+                    {{-- Content Body (Scrollable) --}}
+                    <div class="bg-white dark:bg-gray-800 px-6 py-4 overflow-y-auto flex-1">
                         
                         {{-- Meta Info --}}
 
