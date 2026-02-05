@@ -68,114 +68,125 @@
             </div>
         </div>
 
-                {{-- MODAL --}}
-        <div x-show="showModal" 
-             style="display: none;"
-             class="fixed inset-0 z-50 pointer-events-none" 
-             aria-labelledby="modal-title" role="dialog" aria-modal="true">
-             
-            {{-- Backdrop (Custom Opacity 0.35) --}}
-            <div x-show="showModal"
-                 x-transition:enter="ease-out duration-300"
-                 x-transition:enter-start="opacity-0"
-                 x-transition:enter-end="opacity-100"
-                 x-transition:leave="ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
-                 class="absolute inset-0 bg-gray-500 transition-opacity pointer-events-auto"
-                 style="--tw-bg-opacity: 0.35;" 
-                 @click="showModal = false"
-                 aria-hidden="true"></div>
+                                {{-- MODAL --}}
 
-                                    {{-- Modal Panel (Fixed Bottom Right with Corner Pop-up Animation) --}}
+                        <div x-show="showModal" 
 
-                                    <div
+                             style="display: none;"
 
-                                        x-show="showModal"
+                             class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" 
 
-                                        x-transition:enter="transition ease-out duration-300"
+                             aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
-                                        x-transition:enter-start="opacity-0"
+                             
 
-                                        x-transition:enter-end="opacity-100"
+                            {{-- Backdrop (Custom Opacity 0.35) --}}
 
-                                        x-transition:leave="transition ease-in duration-200"
+                            <div x-show="showModal"
 
-                                        x-transition:leave-start="opacity-100"
+                                 x-transition:enter="ease-out duration-300"
 
-                                        x-transition:leave-end="opacity-0"
+                                 x-transition:enter-start="opacity-0"
 
-                                        x-transition:enter-start.style="transform: translate(96px, 96px) scale(0.95)"
+                                 x-transition:enter-end="opacity-100"
 
-                                        x-transition:enter-end.style="transform: translate(0, 0) scale(1)"
+                                 x-transition:leave="ease-in duration-200"
 
-                                        x-transition:leave-start.style="transform: translate(0, 0) scale(1)"
+                                 x-transition:leave-start="opacity-100"
 
-                                        x-transition:leave-end.style="transform: translate(96px, 96px) scale(0.95)"
+                                 x-transition:leave-end="opacity-0"
 
-                                        class="fixed bottom-0 right-0 z-50 w-full sm:max-w-2xl sm:mr-4
+                                 class="fixed inset-0 bg-gray-500 transition-opacity"
 
-                                               bg-white dark:bg-gray-800
+                                 style="--tw-bg-opacity: 0.35;" 
 
-                                               border border-gray-200 dark:border-gray-700
+                                 @click="showModal = false"
 
-                                               rounded-t-lg shadow-2xl
+                                 aria-hidden="true"></div>
 
-                                               max-h-[85vh] flex flex-col pointer-events-auto"
+                
 
-                                    >
-
-                        
-
-            
-
-                            <!-- HEADER -->
+                            {{-- Modal Panel (Centered with Scale Animation) --}}
 
                             <div
 
-                                class="bg-gray-900 text-white px-4 py-3
+                                x-show="showModal"
 
-                                       flex justify-between items-center
+                                x-transition:enter="transition ease-out duration-300 transform"
 
-                                       rounded-t-lg cursor-pointer flex-shrink-0"
+                                x-transition:enter-start="opacity-0 scale-95"
 
-                                @click="showModal = false"
+                                x-transition:enter-end="opacity-100 scale-100"
+
+                                x-transition:leave="transition ease-in duration-200 transform"
+
+                                x-transition:leave-start="opacity-100 scale-100"
+
+                                x-transition:leave-end="opacity-0 scale-95"
+
+                                class="relative bg-white dark:bg-gray-800
+
+                                       border border-gray-200 dark:border-gray-700
+
+                                       rounded-xl shadow-2xl
+
+                                       w-full max-w-2xl
+
+                                       max-h-[90vh] flex flex-col z-50"
 
                             >
 
-                                <h3 class="text-sm font-bold tracking-wide">
+                
 
-                                    REPLY MESSAGE
+                                <!-- HEADER -->
 
-                                </h3>
+                                <div
 
-            
+                                    class="bg-gray-900 text-white px-4 py-3
 
-                                <button
+                                           flex justify-between items-center
 
-                                    @click.stop="showModal = false"
+                                           rounded-t-xl cursor-pointer flex-shrink-0"
 
-                                    class="text-gray-400 hover:text-white focus:outline-none"
+                                    @click="showModal = false"
 
                                 >
 
-                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <h3 class="text-sm font-bold tracking-wide">
 
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        REPLY MESSAGE
 
-                                              d="M6 18L18 6M6 6l12 12" />
+                                    </h3>
 
-                                    </svg>
+                
 
-                                </button>
+                                    <button
 
-                            </div>
+                                        @click.stop="showModal = false"
 
-            
+                                        class="text-gray-400 hover:text-white focus:outline-none"
 
-                            <!-- CONTENT -->
+                                    >
 
-                            <div class="px-6 py-4 overflow-y-auto">
+                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+
+                                                  d="M6 18L18 6M6 6l12 12" />
+
+                                        </svg>
+
+                                    </button>
+
+                                </div>
+
+                
+
+                                <!-- CONTENT -->
+
+                                <div class="px-6 py-4 overflow-y-auto flex-1">
+
+                
 
             
 
