@@ -486,14 +486,17 @@
                 },
                 on: {
                     slideChangeTransitionStart: function () {
-                        this.slides.removeClass('swiper-slide-prev swiper-slide-next');
+                        // Standard JS fix for Swiper 11 NodeList
+                        this.slides.forEach(slide => {
+                            slide.classList.remove('swiper-slide-prev', 'swiper-slide-next');
+                        });
+                        
                         var active = this.activeIndex;
-                        var prev = this.slides.eq(active - 1);
-                        var next = this.slides.eq(active + 1);
-                        if (!prev.length) prev = this.slides.eq(this.slides.length - 1);
-                        if (!next.length) next = this.slides.eq(0);
-                        prev.addClass("swiper-slide-prev");
-                        next.addClass("swiper-slide-next");
+                        var prev = this.slides[active - 1] || this.slides[this.slides.length - 1];
+                        var next = this.slides[active + 1] || this.slides[0];
+                        
+                        if (prev) prev.classList.add("swiper-slide-prev");
+                        if (next) next.classList.add("swiper-slide-next");
                     }
                 }
             });
