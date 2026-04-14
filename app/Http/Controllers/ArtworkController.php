@@ -390,8 +390,8 @@ class ArtworkController extends Controller
                     return response()->json(['error' => 'The URL must point to an image.'], 422);
                 }
 
-                if ($contentLength > 5 * 1024 * 1024) { // 5MB Limit
-                    return response()->json(['error' => 'Image is too large (Max 5MB).'], 422);
+                if ($contentLength > 10 * 1024 * 1024) { // 10MB Limit
+                    return response()->json(['error' => 'Image is too large (Max 10MB).'], 422);
                 }
             }
 

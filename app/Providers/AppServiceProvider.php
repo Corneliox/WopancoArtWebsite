@@ -21,8 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Force HTTPS if using Ngrok (or production)
-        if($this->app->environment('production') || str_contains(request()->getHost(), 'ngrok')) {
+        // Force HTTPS if using Ngrok or in Production
+        if($this->app->environment('production') || 
+           str_contains(request()->getHost(), 'ngrok') || 
+           env('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }
     }
