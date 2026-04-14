@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'security_quiz_answer' => env('SECURITY_QUIZ_ANSWER', '5 April 2018'),
+
 ];

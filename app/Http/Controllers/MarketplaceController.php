@@ -71,8 +71,8 @@ class MarketplaceController extends Controller
         // 2. FIND THE GATEKEEPER ADMIN
         $gatekeeper = \App\Models\User::where('is_shop_contact', true)->first();
         
-        // Fallback: If no admin is set as gate, use .env or a default
-        $adminPhone = $gatekeeper ? $gatekeeper->phone : env('ADMIN_WA_NUMBER', '628123456789');
+        // Fallback: If no admin is set as gate, use config or a default
+        $adminPhone = $gatekeeper ? $gatekeeper->phone : config('services.admin_wa_number');
 
         // Clean phone number (ensure no + or spaces)
         $adminPhone = preg_replace('/[^0-9]/', '', $adminPhone);

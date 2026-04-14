@@ -35,4 +35,6 @@ return [
         ],
     ],
 
+    'admin_wa_number' => env('ADMIN_WA_NUMBER', '628123456789'),
+
 ];

@@ -244,54 +244,59 @@ Route::get('lang/{locale}', function ($locale) {
     return redirect()->back();
 })->name('lang.switch');
 
-// --- TEMPORARY COMMAND ROUTE ---
-Route::get('/run-commands', function () {
+// ===================================
+// 6. UTILITIES (SECURED ADMIN ONLY)
+// ===================================
 
-    // 1. Clear Config Cache (Critical for .env changes)
-    \Illuminate\Support\Facades\Artisan::call('config:clear');
+Route::middleware(['auth', 'admin'])->group(function () {
 
-    // 2. Clear Application Cache
-    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    // --- TEMPORARY COMMAND ROUTE ---
+    Route::get('/run-commands', function () {
 
-    // 3. Clear View Cache (Good for blade changes)
-    \Illuminate\Support\Facades\Artisan::call('view:clear');
+        // 1. Clear Config Cache (Critical for .env changes)
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
 
-    return '<h1>DONE! Config, Cache, and Views cleared.</h1>';
-});
+        // 2. Clear Application Cache
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
 
-// --- TEMPORARY FIX ROUTE ---
-Route::get('/fix-missing-slugs', function () {
-    $users = \App\Models\User::whereNull('slug')->orWhere('slug', '')->get();
-    $count = 0;
+        // 3. Clear View Cache (Good for blade changes)
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
 
-    foreach ($users as $user) {
-        // Create a unique slug
-        $user->slug = \Illuminate\Support\Str::slug($user->name) . '-' . \Illuminate\Support\Str::lower(\Illuminate\Support\Str::random(4));
-        $user->save(); // This saves it to the database
-        $count++;
-    }
+        return '<h1>DONE! Config, Cache, and Views cleared.</h1>';
+    });
 
-    return "<h1>Success! Fixed slugs for $count users.</h1><br>Go back to <a href='/'>Homepage</a>";
-});
+    // --- TEMPORARY FIX ROUTE ---
+    Route::get('/fix-missing-slugs', function () {
+        $users = \App\Models\User::whereNull('slug')->orWhere('slug', '')->get();
+        $count = 0;
 
-// --- TEMPORARY EMAIL DEBUG ROUTE ---
-use Illuminate\Support\Facades\Mail;
+        foreach ($users as $user) {
+            // Create a unique slug
+            $user->slug = \Illuminate\Support\Str::slug($user->name) . '-' . \Illuminate\Support\Str::lower(\Illuminate\Support\Str::random(4));
+            $user->save(); // This saves it to the database
+            $count++;
+        }
 
-Route::get('/debug-email', function () {
-    try {
-        // Replace this with your PERSONAL email (gmail/yahoo) to test reception
-        $targetEmail = 'cornelioabdimash@gmail.com'; // OR YOUR EMAIL
+        return "<h1>Success! Fixed slugs for $count users.</h1><br>Go back to <a href='/'>Homepage</a>";
+    });
 
-        Mail::raw('Test email content. If you see this, SMTP is working!', function ($msg) use ($targetEmail) {
-            $msg->to($targetEmail)
-                ->subject('Wopanco SMTP Debug Test');
-        });
+    // --- TEMPORARY EMAIL DEBUG ROUTE ---
+    Route::get('/debug-email', function () {
+        try {
+            // Replace this with your PERSONAL email (gmail/yahoo) to test reception
+            $targetEmail = 'cornelioabdimash@gmail.com'; // OR YOUR EMAIL
 
-        return '<h1>✅ SUCCESS!</h1> <p>Email was sent successfully. Check your inbox (and spam folder) for ' . $targetEmail . '.</p>';
-    } catch (\Exception $e) {
-        return '<h1>❌ FAILED</h1>' .
-               '<strong>Error Message:</strong> ' . $e->getMessage();
-    }
+            \Illuminate\Support\Facades\Mail::raw('Test email content. If you see this, SMTP is working!', function ($msg) use ($targetEmail) {
+                $msg->to($targetEmail)
+                    ->subject('Wopanco SMTP Debug Test');
+            });
+
+            return '<h1>✅ SUCCESS!</h1> <p>Email was sent successfully. Check your inbox (and spam folder) for ' . $targetEmail . '.</p>';
+        } catch (\Exception $e) {
+            return '<h1>❌ FAILED</h1>' .
+                '<strong>Error Message:</strong> ' . $e->getMessage();
+        }
+    });
 });
 
 // --- TEMPORARY: MARK ALL EXISTING USERS AS VERIFIED ---

@@ -26,8 +26,6 @@ class User extends Authenticatable
         'email',
         'password',
         'is_artist',      // Role
-        'is_admin',       // Role
-        'is_superadmin',  // Role (God Mode)
         'phone',          // General Phone
         'is_shop_contact', // The Gate Flag
         'slug',           // Added slug to fillable just in case

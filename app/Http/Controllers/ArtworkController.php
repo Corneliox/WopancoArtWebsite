@@ -362,6 +362,16 @@ class ArtworkController extends Controller
         $request->validate(['url' => 'required|url']);
         $url = $request->url;
 
+        // 1. Basic URL Filter (Prevent internal network access)
+        $parsedUrl = parse_url($url);
+        $host = strtolower($parsedUrl['host'] ?? '');
+        if (in_array($host, ['localhost', '127.0.0.1', '::1', '0.0.0.0']) || 
+            str_starts_with($host, '192.168.') || 
+            str_starts_with($host, '10.') || 
+            str_starts_with($host, '172.')) {
+            return response()->json(['error' => 'Access to internal network is prohibited.'], 403);
+        }
+
         if (str_contains($url, 'drive.google.com')) {
             preg_match('/\/d\/(.*?)\//', $url, $matches);
             if (isset($matches[1])) {
@@ -370,7 +380,23 @@ class ArtworkController extends Controller
         }
 
         try {
-            $response = Http::get($url);
+            // 2. Perform a HEAD request first to check size & type (Avoid large downloads)
+            $headResponse = Http::timeout(5)->head($url);
+            if ($headResponse->successful()) {
+                $contentType = $headResponse->header('Content-Type');
+                $contentLength = (int)$headResponse->header('Content-Length');
+
+                if ($contentType && !str_contains($contentType, 'image/')) {
+                    return response()->json(['error' => 'The URL must point to an image.'], 422);
+                }
+
+                if ($contentLength > 5 * 1024 * 1024) { // 5MB Limit
+                    return response()->json(['error' => 'Image is too large (Max 5MB).'], 422);
+                }
+            }
+
+            // 3. Perform the actual GET request
+            $response = Http::timeout(10)->get($url);
             if ($response->failed()) return response()->json(['error' => 'Failed to download.'], 422);
 
             $filename = 'temp_' . uniqid() . '.jpg';
@@ -383,7 +409,7 @@ class ArtworkController extends Controller
                 'temp_path' => $tempPath
             ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error: Download failed.' . $e->getMessage()], 500);
         }
     }
 }

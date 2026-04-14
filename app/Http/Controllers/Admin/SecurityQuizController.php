@@ -20,7 +20,7 @@ class SecurityQuizController extends Controller
         ]);
 
         // The Secret Answer Logic
-        $correct = "5 April 2018";
+        $correct = config('app.security_quiz_answer');
 
         if (trim($request->answer) === $correct) {
             // Success! Queue a cookie for 5 years (2628000 minutes)

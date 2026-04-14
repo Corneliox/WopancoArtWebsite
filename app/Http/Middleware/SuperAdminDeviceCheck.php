@@ -13,7 +13,7 @@ class SuperAdminDeviceCheck
         $user = $request->user();
 
         // 1. Only run this check for Super Admins
-        if ($user && $user->is_super_admin) {
+        if ($user && $user->is_superadmin) {
             
             // 2. Check if this device has the "Trusted" cookie
             if (!$request->hasCookie('admin_device_trusted')) {
